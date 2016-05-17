@@ -28,6 +28,7 @@ var rc = module.exports = require('rc')('prebuild-install', {
   target: process.version,
   arch: process.arch,
   platform: process.platform,
+  abi: process.versions.modules,
   debug: false,
   verbose: false,
   prebuild: true,
