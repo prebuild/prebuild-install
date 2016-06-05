@@ -28,7 +28,7 @@ if (!fs.existsSync('package.json')) {
   process.exit(1)
 }
 
-var pkg = require(path.resolve('package.json'))
+var pkg = require(path.resolve(__dirname, '../..', 'package.json'))
 
 if (rc.help) {
   console.error(fs.readFileSync(path.join(__dirname, 'help.txt'), 'utf-8'))
@@ -40,8 +40,8 @@ log.info('begin', 'Prebuild-install version', prebuildClientVersion)
 var opts = extend(rc, {pkg: pkg, log: log})
 
 if (opts.download) {
-  if (!(typeof pkg._from === 'string')) {
-    log.info('install', 'installing inside prebuild-install directory, skipping download.')
+  if (typeof pkg._from !== 'string') {
+    log.info('install', 'installing project from code source, skipping download.')
     process.exit(1)
   } else if (pkg._from.length > 4 && pkg._from.substr(0, 4) === 'git+') {
     log.info('install', 'installing from git repository, skipping download.')
