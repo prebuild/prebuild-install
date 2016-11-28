@@ -1,7 +1,7 @@
 {
   "name": "prebuild-install",
   "version": "1.1.0",
-  "description": "A command line tool for easily install prebuilds for multiple version of node/iojs on a specific platform",
+  "description": "Command line tool to easily install prebuilds for multiple version of node/iojs",
   "scripts": {
     "test": "tape test/*-test.js && npm run audit && npm run lint",
     "audit": "nsp check",
@@ -38,7 +38,8 @@
     "standard": "^8.6.0",
     "tape": "^4.6.3"
   },
-  "bin": "./bin.js",
+  "bin": "server.js",
+  "main": "lib",
   "repository": {
     "type": "git",
     "url": "https://github.com/mafintosh/prebuild-install.git"

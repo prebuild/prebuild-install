@@ -1,13 +1,15 @@
-var test = require('tape')
 var fs = require('fs')
-var rm = require('rimraf')
-var path = require('path')
 var http = require('http')
 var https = require('https')
-var download = require('../download')
-var rc = require('../rc')
-var util = require('../util')
-var error = require('../error')
+var path = require('path')
+
+var rm = require('rimraf')
+var test = require('tape')
+
+var download = require('../lib/download')
+var error = require('../lib/error')
+var rc = require('../lib/rc')
+var util = require('../lib/util')
 
 var build = path.join(__dirname, 'build')
 var unpacked = path.join(build, 'Release/leveldown.node')
@@ -268,7 +270,7 @@ test('should fail if abi is system abi with invalid binary', function (t) {
 
   var server = http.createServer(function (req, res) {
     res.statusCode = 200
-    var archive = path.join(__dirname, 'invalid.tar.gz')
+    var archive = path.join(__dirname, 'fixtures', 'invalid.tar.gz')
     fs.createReadStream(archive).pipe(res)
   }).listen(8890, function () {
     download(opts, function (err) {

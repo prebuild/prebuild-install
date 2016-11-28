@@ -1,6 +1,7 @@
-var test = require('tape')
-var path = require('path')
 var exec = require('child_process').exec
+var path = require('path')
+
+var test = require('tape')
 var xtend = require('xtend')
 
 test('custom config and aliases', function (t) {
@@ -63,7 +64,7 @@ test('npm_config_* are passed on from environment into rc', function (t) {
 })
 
 function runRc (t, args, env, cb) {
-  var cmd = 'node ' + path.resolve(__dirname, '..', 'rc.js') + ' ' + args
+  var cmd = 'node ' + path.resolve(__dirname, '..', 'lib', 'rc.js') + ' ' + args
   env = xtend(process.env, env)
   exec(cmd, { env: env }, function (err, stdout, stderr) {
     t.error(err, 'no error')
