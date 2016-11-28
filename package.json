@@ -19,24 +19,24 @@
     "devops"
   ],
   "dependencies": {
-    "expand-template": "^1.0.2",
+    "expand-template": "^1.0.3",
     "github-from-package": "0.0.0",
     "minimist": "^1.2.0",
     "noop-logger": "^0.1.1",
-    "npmlog": "^2.0.3",
-    "os-homedir": "^1.0.1",
+    "npmlog": "^4.0.1",
+    "os-homedir": "^1.0.2",
     "pump": "^1.0.1",
     "rc": "^1.1.6",
-    "simple-get": "^2.0.0",
-    "tar-fs": "^1.13.0",
+    "simple-get": "^2.3.0",
+    "tar-fs": "^1.14.0",
     "xtend": "4.0.1"
   },
   "devDependencies": {
     "a-native-module": "^1.0.0",
-    "nsp": "^2.3.0",
-    "rimraf": "^2.5.2",
-    "standard": "^7.1.0",
-    "tape": "^4.5.1"
+    "nsp": "^2.6.2",
+    "rimraf": "^2.5.4",
+    "standard": "^8.6.0",
+    "tape": "^4.6.3"
   },
   "bin": "./bin.js",
   "repository": {
