@@ -1,8 +1,10 @@
-var test = require('tape')
 var fs = require('fs')
-var home = require('os-homedir')
-var util = require('../util')
 var path = require('path')
+
+var home = require('os-homedir')
+var test = require('tape')
+
+var util = require('../lib/util')
 
 test('prebuildCache() for different environments', function (t) {
   var APPDATA = process.env.APPDATA = 'somepathhere'

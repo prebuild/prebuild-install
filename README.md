@@ -1,13 +1,13 @@
 # prebuild-install [![Build Status](https://travis-ci.org/mafintosh/prebuild-install.svg?branch=master)](https://travis-ci.org/mafintosh/prebuild-install)
 
-A command line tool for easily install prebuilds for multiple version of node/iojs on a specific platform.
+Command line tool to easily install prebuilds for multiple version of node/iojs
 
-`prebuild-install` supports installing prebuilt binaries from GitHub by default.
+`prebuild-install` supports installing prebuilt binaries from GitHub by default
 
 ## Usage
 
-Change your package.json install script to:
-```
+Change your `package.json` `install` script to:
+```json
 ...
   "scripts": {
     "install": "prebuild-install -d || node-gyp rebuild"
@@ -29,7 +29,7 @@ prebuild-install [options]
   --debug                       (set Debug or Release configuration)
   --verbose                     (log verbosely)
   --version                     (print prebuild-install version and exit)
- ```
+```
 
 ## License
 
