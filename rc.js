@@ -26,7 +26,7 @@ for (var j = 0; j < npmconfigs.length; ++j) {
 
 var rc = module.exports = require('rc')('prebuild-install', {
   target: process.version,
-  arch: process.arch,
+  arch: process.env.npm_config_arch || process.arch,
   platform: process.platform,
   abi: process.versions.modules,
   debug: false,
