@@ -25,10 +25,11 @@ for (var j = 0; j < npmconfigs.length; ++j) {
 }
 
 var rc = module.exports = require('rc')('prebuild-install', {
-  target: process.version,
-  arch: process.arch,
+  target: process.env.npm_config_target || process.version,
+  arch: process.env.npm_config_arch || process.arch,
+  runtime: process.env.npm_config_runtime || process.title,
   platform: process.platform,
-  abi: process.versions.modules,
+  abi: process.env.npm_config_abi || process.versions.modules,
   debug: false,
   verbose: false,
   prebuild: true,
@@ -37,7 +38,9 @@ var rc = module.exports = require('rc')('prebuild-install', {
   'https-proxy': process.env['HTTPS_PROXY']
 }, minimist(process.argv, {
   alias: {
+    target: 'b',
     arch: 'a',
+    runtime: 'r',
     path: 'p',
     help: 'h',
     version: 'v',

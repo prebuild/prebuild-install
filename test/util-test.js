@@ -13,15 +13,15 @@ test('prebuildCache() for different environments', function (t) {
 })
 
 test('cachedPrebuild() converts url to valid characters', function (t) {
-  var url = 'https://github.com/level/leveldown/releases/download/v1.4.0/leveldown-v1.4.0-node-v14-linux-x64.tar.gz'
-  var tail = 'https-github.com-level-leveldown-releases-download-v1.4.0-leveldown-v1.4.0-node-v14-linux-x64.tar.gz'
+  var url = 'https://github.com/level/leveldown/releases/download/v1.4.0/leveldown-v1.4.0-{runtime}-v14-linux-x64.tar.gz'
+  var tail = 'https-github.com-level-leveldown-releases-download-v1.4.0-leveldown-v1.4.0-{runtime}-v14-linux-x64.tar.gz'
   var cached = util.cachedPrebuild(url)
   t.ok(cached.indexOf(tail))
   t.end()
 })
 
 test('tempFile() ends with pid and random number', function (t) {
-  var url = 'https://github.com/level/leveldown/releases/download/v1.4.0/leveldown-v1.4.0-node-v14-linux-x64.tar.gz'
+  var url = 'https://github.com/level/leveldown/releases/download/v1.4.0/leveldown-v1.4.0-{runtime}-v14-linux-x64.tar.gz'
   var cached = util.cachedPrebuild(url)
   var tempFile = util.tempFile(cached)
   var regexp = /(\S+)\.(\d+)-([a-f0-9]+)\.tmp$/gi
@@ -42,7 +42,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
     pkg: {binary: {host: 'http://foo.com'}}
   }
   var t2 = util.urlTemplate(o2)
-  t.equal(t2, 'http://foo.com/{name}-v{version}-node-v{abi}-{platform}-{arch}.tar.gz', 'template based on pkg.binary properties')
+  t.equal(t2, 'http://foo.com/{name}-v{version}-{runtime}-v{abi}-{platform}-{arch}.tar.gz', 'template based on pkg.binary properties')
   var o3 = {
     pkg: {binary: {host: 'http://foo.com'}},
     download: true
@@ -59,32 +59,32 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
     pkg: {binary: {host: 'http://foo.com', remote_path: 'w00t'}}
   }
   var t5 = util.urlTemplate(o5)
-  t.equal(t5, 'http://foo.com/w00t/{name}-v{version}-node-v{abi}-{platform}-{arch}.tar.gz', 'pkg.binary.remote_path is added after host, default format')
+  t.equal(t5, 'http://foo.com/w00t/{name}-v{version}-{runtime}-v{abi}-{platform}-{arch}.tar.gz', 'pkg.binary.remote_path is added after host, default format')
   var o6 = {
     pkg: {
       binary: {
         host: 'http://foo.com',
         remote_path: 'w00t',
-        package_name: '{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz'
+        package_name: '{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz'
       }
     }
   }
   var t6 = util.urlTemplate(o6)
-  t.equal(t6, 'http://foo.com/w00t/{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz', 'pkg.binary.package_name is added after host and remote_path, custom format')
+  t.equal(t6, 'http://foo.com/w00t/{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz', 'pkg.binary.package_name is added after host and remote_path, custom format')
   var o7 = {pkg: require('../package.json'), download: true}
   var t7 = util.urlTemplate(o7)
-  t.equal(t7, 'https://github.com/mafintosh/prebuild-install/releases/download/v{version}/{name}-v{version}-node-v{abi}-{platform}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, default format')
+  t.equal(t7, 'https://github.com/mafintosh/prebuild-install/releases/download/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, default format')
   t.end()
 })
 
 test('urlTemplate() with pkg.binary cleans up leading ./ or / and trailing /', function (t) {
-  var expected = 'http://foo.com/w00t/{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz'
+  var expected = 'http://foo.com/w00t/{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz'
   var o = {
     pkg: {
       binary: {
         host: 'http://foo.com/',
         remote_path: '/w00t',
-        package_name: '/{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz'
+        package_name: '/{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz'
       }
     }
   }
@@ -92,19 +92,19 @@ test('urlTemplate() with pkg.binary cleans up leading ./ or / and trailing /', f
   o.pkg.binary = {
     host: 'http://foo.com/',
     remote_path: './w00t/',
-    package_name: './{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz'
+    package_name: './{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz'
   }
   t.equal(util.urlTemplate(o), expected)
   o.pkg.binary = {
     host: 'http://foo.com/',
     remote_path: 'w00t/',
-    package_name: '{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz/'
+    package_name: '{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz/'
   }
   t.equal(util.urlTemplate(o), expected)
   o.pkg.binary = {
     host: 'http://foo.com',
     remote_path: './w00t',
-    package_name: '/{name}-{major}.{minor}-node-v{abi}-{platform}-{arch}.tar.gz/'
+    package_name: '/{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz/'
   }
   t.equal(util.urlTemplate(o), expected)
   t.end()

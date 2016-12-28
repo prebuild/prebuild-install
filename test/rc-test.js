@@ -12,7 +12,8 @@ test('custom config and aliases', function (t) {
     '--version',
     '--help',
     '--path ../some/other/path',
-    '--no-prebuild'
+    '--no-prebuild',
+    '--runtime RUNTIME'
   ]
   runRc(t, args.join(' '), {}, function (rc) {
     t.equal(rc.arch, 'ARCH', 'correct arch')
@@ -28,6 +29,7 @@ test('custom config and aliases', function (t) {
     t.equal(rc.path, '../some/other/path', 'correct path')
     t.equal(rc.path, rc.p, 'path alias')
     t.equal(rc.prebuild, false, 'correct --no-prebuild')
+    t.equal(rc.runtime, 'RUNTIME', 'correct runtime')
     t.end()
   })
 })
@@ -52,12 +54,16 @@ test('npm_config_* are passed on from environment into rc', function (t) {
   var env = {
     npm_config_proxy: 'PROXY',
     npm_config_https_proxy: 'HTTPS_PROXY',
-    npm_config_local_address: 'LOCAL_ADDRESS'
+    npm_config_local_address: 'LOCAL_ADDRESS',
+    npm_config_runtime: 'RUNTIME',
+    npm_config_target: 'TARGET'
   }
   runRc(t, '', env, function (rc) {
     t.equal(rc.proxy, 'PROXY', 'proxy is set')
     t.equal(rc['https-proxy'], 'HTTPS_PROXY', 'https-proxy is set')
     t.equal(rc['local-address'], 'LOCAL_ADDRESS', 'local-address is set')
+    t.equal(rc.target, 'TARGET', 'target is set')
+    t.equal(rc.runtime, 'RUNTIME', 'runtime is set')
     t.end()
   })
 })
