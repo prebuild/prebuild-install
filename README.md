@@ -10,7 +10,7 @@ Change your package.json install script to:
 ```
 ...
   "scripts": {
-    "install": "prebuild-install -d || node-gyp rebuild"
+    "install": "prebuild-install || node-gyp rebuild"
   }
 ...
 ```
@@ -24,10 +24,13 @@ You need to provide prebuilds made by [prebuild](https://github.com/mafintosh/pr
 prebuild-install [options]
 
   --download    -d  [url]       (download prebuilds, no url means github)
-  --no-prebuild                 (skip prebuild download)
+  --target      -t  version     (version to install for)
+  --runtime     -r  runtime     (Node runtime [node or electron] to build or install for, default is node)
   --path        -p  path        (make a prebuild-install here)
-  --debug                       (set Debug or Release configuration)
+  --build-from-source           (skip prebuild download)
   --verbose                     (log verbosely)
+  --libc                        (use provided libc rather than system default)
+  --debug                       (set Debug or Release configuration)
   --version                     (print prebuild-install version and exit)
  ```
 

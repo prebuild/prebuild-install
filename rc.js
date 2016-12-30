@@ -1,7 +1,8 @@
 var minimist = require('minimist')
+var getAbi = require('node-abi').getAbi
 
 if (process.env.npm_config_argv) {
-  var npmargs = ['prebuild', 'debug']
+  var npmargs = ['prebuild', 'compile', 'build-from-source', 'debug']
   try {
     var npmArgv = JSON.parse(process.env.npm_config_argv).cooked
     for (var i = 0; i < npmargs.length; ++i) {
@@ -15,7 +16,7 @@ if (process.env.npm_config_argv) {
   } catch (e) { }
 }
 
-var npmconfigs = ['proxy', 'https-proxy', 'local-address']
+var npmconfigs = ['proxy', 'https-proxy', 'local-address', 'target', 'runtime', 'platform']
 for (var j = 0; j < npmconfigs.length; ++j) {
   var envname = 'npm_config_' + npmconfigs[j].replace('-', '_')
   if (process.env[envname]) {
@@ -24,31 +25,44 @@ for (var j = 0; j < npmconfigs.length; ++j) {
   }
 }
 
-var rc = module.exports = require('rc')('prebuild-install', {
-  target: process.version,
-  arch: process.env.npm_config_arch || process.arch,
-  platform: process.platform,
-  abi: process.versions.modules,
-  debug: false,
-  verbose: false,
-  prebuild: true,
-  path: '.',
-  proxy: process.env['HTTP_PROXY'],
-  'https-proxy': process.env['HTTPS_PROXY']
-}, minimist(process.argv, {
-  alias: {
-    arch: 'a',
-    path: 'p',
-    help: 'h',
-    version: 'v',
-    download: 'd'
-  }
-}))
+module.exports = function (pkg) {
+  var pkgConf = pkg.config || {}
+  var rc = require('rc')('prebuild-install', {
+    target: pkgConf.target || process.versions.node,
+    runtime: pkgConf.runtime || 'node',
+    arch: pkgConf.arch || process.env.npm_config_arch || process.arch,
+    libc: process.env.LIBC,
+    platform: process.platform,
+    debug: false,
+    verbose: false,
+    prebuild: true,
+    compile: false,
+    path: '.',
+    proxy: process.env['HTTP_PROXY'],
+    'https-proxy': process.env['HTTPS_PROXY']
+  }, minimist(process.argv, {
+    alias: {
+      target: 't',
+      runtime: 'r',
+      help: 'h',
+      arch: 'a',
+      path: 'p',
+      version: 'v',
+      download: 'd',
+      'build-from-source': 'compile',
+      compile: 'c'
+    }
+  }))
 
-if (rc.path === true) {
-  delete rc.path
+  if (rc.path === true) {
+    delete rc.path
+  }
+
+  rc.abi = getAbi(rc.target, rc.runtime)
+
+  return rc
 }
 
 if (!module.parent) {
-  console.log(JSON.stringify(module.exports, null, 2))
+  console.log(JSON.stringify(module.exports({}), null, 2))
 }

@@ -7,6 +7,8 @@ var noop = require('noop-logger')
 var zlib = require('zlib')
 var util = require('./util')
 var error = require('./error')
+var url = require('url')
+var tunnel = require('tunnel-agent')
 
 function downloadPrebuild (opts, cb) {
   var downloadUrl = util.getDownloadUrl(opts)
@@ -41,7 +43,25 @@ function downloadPrebuild (opts, cb) {
         }
 
         log.http('request', 'GET ' + downloadUrl)
-        var req = get(downloadUrl, function (err, res) {
+        var reqOpts = { url: downloadUrl }
+        var proxy = opts['https-proxy'] || opts.proxy
+
+        if (proxy) {
+          var parsedDownloadUrl = url.parse(downloadUrl)
+          var parsedProxy = url.parse(proxy)
+          var uriProtocol = (parsedDownloadUrl.protocol === 'https:' ? 'https' : 'http')
+          var proxyProtocol = (parsedProxy.protocol === 'https:' ? 'Https' : 'Http')
+          var tunnelFnName = [uriProtocol, proxyProtocol].join('Over')
+          reqOpts.agent = tunnel[tunnelFnName]({
+            proxy: {
+              host: parsedProxy.hostname,
+              port: +parsedProxy.port,
+              proxyAuth: parsedProxy.auth
+            }
+          })
+        }
+
+        var req = get(reqOpts, function (err, res) {
           if (err) return onerror(err)
           log.http(res.statusCode, downloadUrl)
           if (res.statusCode !== 200) return onerror()
@@ -79,37 +99,26 @@ function downloadPrebuild (opts, cb) {
     }
 
     log.info('unpacking @', cachedPrebuild)
-
-    var options = {
-      readable: true,
-      writable: true,
-      hardlinkAsFilesFallback: true
-    }
-    var extract = tfs.extract(opts.path, options).on('entry', updateName)
-
-    pump(fs.createReadStream(cachedPrebuild), zlib.createGunzip(), extract,
-    function (err) {
+    pump(fs.createReadStream(cachedPrebuild), zlib.createGunzip(), tfs.extract(opts.path, {readable: true, writable: true}).on('entry', updateName), function (err) {
       if (err) return cb(err)
+      if (!binaryName) return cb(error.invalidArchive())
 
       var resolved
-      if (binaryName) {
+      try {
+        resolved = path.resolve(opts.path || '.', binaryName)
+      } catch (err) {
+        return cb(err)
+      }
+      log.info('unpack', 'resolved to ' + resolved)
+
+      if (opts.abi === process.versions.modules) {
         try {
-          resolved = path.resolve(opts.path || '.', binaryName)
+          require(resolved)
         } catch (err) {
           return cb(err)
         }
-        log.info('unpack', 'resolved to ' + resolved)
-
-        if (opts.abi === process.versions.modules) {
-          try {
-            require(resolved)
-          } catch (err) {
-            return cb(err)
-          }
-          log.info('unpack', 'required ' + resolved + ' successfully')
-        }
+        log.info('unpack', 'required ' + resolved + ' successfully')
       }
-
       cb(null, resolved)
     })
   }

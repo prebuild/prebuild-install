@@ -16,8 +16,10 @@ function getDownloadUrl (opts) {
     build: opts.pkg.version.split('+')[1],
     abi: opts.abi || process.versions.modules,
     node_abi: process.versions.modules,
+    runtime: opts.runtime || 'node',
     platform: opts.platform,
     arch: opts.arch,
+    libc: opts.libc || process.env.LIBC || '',
     configuration: (opts.debug ? 'Debug' : 'Release'),
     module_name: opts.pkg.binary && opts.pkg.binary.module_name
   })
@@ -28,7 +30,7 @@ function urlTemplate (opts) {
     return opts.download
   }
 
-  var packageName = '{name}-v{version}-node-v{abi}-{platform}-{arch}.tar.gz'
+  var packageName = '{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz'
   if (opts.pkg.binary) {
     return [
       opts.pkg.binary.host,
@@ -65,6 +67,10 @@ function localPrebuild (url) {
   return path.join('prebuilds', path.basename(url))
 }
 
+function isYarnPath (execPath) {
+  return execPath ? /^yarn/.test(path.basename(execPath)) : false
+}
+
 exports.getDownloadUrl = getDownloadUrl
 exports.urlTemplate = urlTemplate
 exports.cachedPrebuild = cachedPrebuild
@@ -72,3 +78,4 @@ exports.localPrebuild = localPrebuild
 exports.prebuildCache = prebuildCache
 exports.npmCache = npmCache
 exports.tempFile = tempFile
+exports.isYarnPath = isYarnPath

@@ -5,7 +5,6 @@ var path = require('path')
 var http = require('http')
 var https = require('https')
 var download = require('../download')
-var rc = require('../rc')
 var util = require('../util')
 var error = require('../error')
 
@@ -155,6 +154,19 @@ test('cached prebuild', function (t) {
   })
 })
 
+test('missing .node file in .tar.gz should fail', function (t) {
+  t.plan(2)
+
+  var opts = getOpts()
+  opts.updateName = function (entry) {
+    t.ok(/\.node$/i.test(entry.name), 'should match but we pretend it does not')
+  }
+  download(opts, function (err) {
+    t.equal(err.message, 'Missing .node file in archive', 'correct error message')
+    t.end()
+  })
+})
+
 test('non existing host should fail with no dangling temp file', function (t) {
   t.plan(3)
 
@@ -263,7 +275,7 @@ test('error during download should fail with no dangling temp file', function (t
 
 test('should fail if abi is system abi with invalid binary', function (t) {
   var opts = getOpts()
-  opts.abi = rc.abi
+  opts.abi = process.versions.modules
   opts.pkg.binary = {host: 'http://localhost:8890'}
 
   var server = http.createServer(function (req, res) {
@@ -274,7 +286,7 @@ test('should fail if abi is system abi with invalid binary', function (t) {
     download(opts, function (err) {
       server.unref()
       if (err && typeof err.message === 'string') {
-        t.equal(/invalid\.node: invalid ELF header/.test(err.message), true, 'should match ' + err.message)
+        t.pass('require failed because of invalid abi')
       } else {
         t.fail('should have caused a require() error')
       }
@@ -290,7 +302,6 @@ function getOpts () {
     platform: process.platform,
     arch: process.arch,
     path: __dirname,
-    target: process.version,
     log: {http: function (type, message) {}, info: function (type, message) {}}
   }
 }
