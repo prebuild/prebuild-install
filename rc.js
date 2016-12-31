@@ -3,6 +3,7 @@ var getAbi = require('node-abi').getAbi
 
 var env = process.env
 
+// Get `prebuild-install` arguments that were passed to the `npm` command
 if (env.npm_config_argv) {
   var npmargs = ['prebuild', 'compile', 'build-from-source', 'debug']
   try {
@@ -18,6 +19,18 @@ if (env.npm_config_argv) {
   } catch (e) { }
 }
 
+/**
+ * Get the configuration
+ *
+ * Values are fetch from the CLI arguments, the `pkg` object (probably from the
+`* package.json` file), the environment variables set by the `npm` instance that
+ * executed `prebuild-install`, and finally some safe default values from the
+ * environment variables or the current Node.js instance
+ *
+ * @param {object} pkg
+ *
+ * @return {object} the aggregated configuration
+ */
 module.exports = function (pkg) {
   var pkgConf = pkg.config || {}
   var rc = require('rc')('prebuild-install', {
@@ -57,6 +70,7 @@ module.exports = function (pkg) {
   return rc
 }
 
+// Print the configuration values when executed standalone for testing purposses
 if (!module.parent) {
   console.log(JSON.stringify(module.exports({}), null, 2))
 }
