@@ -1,10 +1,12 @@
 var minimist = require('minimist')
 var getAbi = require('node-abi').getAbi
 
-if (process.env.npm_config_argv) {
+var env = process.env
+
+if (env.npm_config_argv) {
   var npmargs = ['prebuild', 'compile', 'build-from-source', 'debug']
   try {
-    var npmArgv = JSON.parse(process.env.npm_config_argv).cooked
+    var npmArgv = JSON.parse(env.npm_config_argv).cooked
     for (var i = 0; i < npmargs.length; ++i) {
       if (npmArgv.indexOf('--' + npmargs[i]) !== -1) {
         process.argv.push('--' + npmargs[i])
@@ -16,30 +18,22 @@ if (process.env.npm_config_argv) {
   } catch (e) { }
 }
 
-var npmconfigs = ['proxy', 'https-proxy', 'local-address', 'target', 'runtime', 'platform']
-for (var j = 0; j < npmconfigs.length; ++j) {
-  var envname = 'npm_config_' + npmconfigs[j].replace('-', '_')
-  if (process.env[envname]) {
-    process.argv.push('--' + npmconfigs[j])
-    process.argv.push(process.env[envname])
-  }
-}
-
 module.exports = function (pkg) {
   var pkgConf = pkg.config || {}
   var rc = require('rc')('prebuild-install', {
-    target: pkgConf.target || process.versions.node,
-    runtime: pkgConf.runtime || 'node',
-    arch: pkgConf.arch || process.env.npm_config_arch || process.arch,
-    libc: process.env.LIBC,
-    platform: process.platform,
+    target: pkgConf.target || env.npm_config_target || process.versions.node,
+    runtime: pkgConf.runtime || env.npm_config_runtime || 'node',
+    arch: pkgConf.arch || env.npm_config_arch || process.arch,
+    libc: env.LIBC,
+    platform: env.npm_config_platform || process.platform,
     debug: false,
     verbose: false,
     prebuild: true,
     compile: false,
     path: '.',
-    proxy: process.env['HTTP_PROXY'],
-    'https-proxy': process.env['HTTPS_PROXY']
+    proxy: env.npm_config_proxy || env['HTTP_PROXY'],
+    'https-proxy': env.npm_config_https_proxy || env['HTTPS_PROXY'],
+    'local-address': env.npm_config_local_address
   }, minimist(process.argv, {
     alias: {
       target: 't',
