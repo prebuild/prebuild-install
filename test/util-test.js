@@ -2,12 +2,13 @@ var test = require('tape')
 var fs = require('fs')
 var home = require('os-homedir')
 var util = require('../util')
+var path = require('path')
 
 test('prebuildCache() for different environments', function (t) {
   var APPDATA = process.env.APPDATA = 'somepathhere'
-  t.equal(util.prebuildCache(), APPDATA + '/npm-cache/_prebuilds', 'APPDATA set')
+  t.equal(util.prebuildCache(), path.join(APPDATA, '/npm-cache/_prebuilds'), 'APPDATA set')
   delete process.env.APPDATA
-  t.equal(util.prebuildCache(), home() + '/.npm/_prebuilds', 'APPDATA not set')
+  t.equal(util.prebuildCache(), path.join(home(), '/.npm/_prebuilds'), 'APPDATA not set')
   t.end()
 })
 

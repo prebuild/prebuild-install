@@ -154,19 +154,6 @@ test('cached prebuild', function (t) {
   })
 })
 
-test('missing .node file in .tar.gz should fail', function (t) {
-  t.plan(2)
-
-  var opts = getOpts()
-  opts.updateName = function (entry) {
-    t.ok(/\.node$/i.test(entry.name), 'should match but we pretend it does not')
-  }
-  download(opts, function (err) {
-    t.equal(err.message, 'Missing .node file in archive', 'correct error message')
-    t.end()
-  })
-})
-
 test('non existing host should fail with no dangling temp file', function (t) {
   t.plan(3)
 
