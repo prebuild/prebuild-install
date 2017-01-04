@@ -19,18 +19,7 @@ if (env.npm_config_argv) {
   } catch (e) { }
 }
 
-/**
- * Get the configuration
- *
- * Values are fetch from the CLI arguments, the `pkg` object (probably from the
-`* package.json` file), the environment variables set by the `npm` instance that
- * executed `prebuild-install`, and finally some safe default values from the
- * environment variables or the current Node.js instance
- *
- * @param {object} pkg
- *
- * @return {object} the aggregated configuration
- */
+// Get the configuration
 module.exports = function (pkg) {
   var pkgConf = pkg.config || {}
   var rc = require('rc')('prebuild-install', {
