@@ -52,7 +52,8 @@ function cachedPrebuild (url) {
 }
 
 function npmCache () {
-  return process.env.APPDATA ? path.join(process.env.APPDATA, 'npm-cache') : path.join(home(), '.npm')
+  var env = process.env
+  return env.npm_config_cache || (env.APPDATA ? path.join(env.APPDATA, 'npm-cache') : path.join(home(), '.npm'))
 }
 
 function prebuildCache () {
