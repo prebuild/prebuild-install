@@ -58,4 +58,5 @@ download(opts, function (err) {
     return process.exit(1)
   }
   log.info('install', 'Successfully installed prebuilt binary!')
+  process.exit(0)
 })
