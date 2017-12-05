@@ -288,7 +288,6 @@ function getOpts () {
     nolocal: true,
     platform: process.platform,
     arch: process.arch,
-    path: __dirname,
-    log: {http: function (type, message) {}, info: function (type, message) {}}
+    path: __dirname
   }
 }
