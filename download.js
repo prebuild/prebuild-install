@@ -3,7 +3,8 @@ var fs = require('fs')
 var get = require('simple-get')
 var pump = require('pump')
 var tfs = require('tar-fs')
-var noop = Object.assign({
+var extend = require('xtend')
+var noop = extend({
   http: function () {},
   silly: function () {}
 }, require('noop-logger'))
