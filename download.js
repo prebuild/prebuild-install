@@ -64,6 +64,10 @@ function downloadPrebuild (opts, cb) {
               proxyAuth: parsedProxy.auth
             }
           })
+          log.http('request', 'Proxy setup detected (Host: ' +
+            parsedProxy.hostname + ', Port: ' +
+            parsedProxy.port + ', Authentication: ' +
+            (parsedProxy.auth ? 'Yes' : 'No') + ')')
         }
 
         var req = get(reqOpts, function (err, res) {
