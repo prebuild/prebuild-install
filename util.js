@@ -51,8 +51,10 @@ function urlTemplate (opts) {
 }
 
 function getHostMirrorUrl (opts) {
-  var propName = 'npm_config_' + opts.pkg.name.replace(/-/g, '_') + '_binary_host'
-  return process.env[propName] || process.env[propName + '_mirror']
+  if (opts.pkg.name) {
+    var propName = 'npm_config_' + opts.pkg.name.replace(/-/g, '_') + '_binary_host'
+    return process.env[propName] || process.env[propName + '_mirror']
+  }
 }
 
 function trimSlashes (str) {
