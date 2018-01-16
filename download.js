@@ -104,10 +104,6 @@ function downloadPrebuild (opts, cb) {
   function unpack () {
     var binaryName
 
-    var updateName = opts.updateName || function (entry) {
-      if (/\.node$/i.test(entry.name)) binaryName = entry.name
-    }
-
     log.info('unpacking @', cachedPrebuild)
 
     var options = {
@@ -115,7 +111,18 @@ function downloadPrebuild (opts, cb) {
       writable: true,
       hardlinkAsFilesFallback: true
     }
-    var extract = tfs.extract(opts.path, options).on('entry', updateName)
+
+    var extract = tfs.extract(opts.path, options)
+
+    if (opts['binary-name']) {
+      binaryName = opts['binary-name']
+    } else {
+      var updateName = opts.updateName || function (entry) {
+        if (/\.node$/i.test(entry.name)) binaryName = entry.name
+      }
+
+      extract.on('entry', updateName)
+    }
 
     pump(fs.createReadStream(cachedPrebuild), zlib.createGunzip(), extract,
     function (err) {

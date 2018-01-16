@@ -31,6 +31,7 @@ module.exports = function (pkg) {
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
     libc: env.LIBC,
     platform: env.npm_config_platform || process.platform,
+    'binary-name': undefined,
     debug: false,
     force: false,
     verbose: false,

@@ -18,6 +18,17 @@ Change your package.json install script to:
 ...
 ```
 
+If your prebuild packages contain multiple `.node` files, use the `--binary-name`
+parameter to choose one to import:
+
+```
+...
+  "scripts": {
+    "install": "prebuild-install --binary-name native-module.node || node-gyp rebuild"
+  }
+...
+```
+
 ### Requirements
 
 You need to provide prebuilds made by [prebuild](https://github.com/mafintosh/prebuild)
@@ -31,6 +42,7 @@ prebuild-install [options]
   --runtime     -r  runtime     (Node runtime [node or electron] to build or install for, default is node)
   --path        -p  path        (make a prebuild-install here)
   --build-from-source           (skip prebuild download)
+  --binary-name                 (filename of the binary module to load when multiple binaries are present)
   --verbose                     (log verbosely)
   --libc                        (use provided libc rather than system default)
   --debug                       (set Debug or Release configuration)
