@@ -30,10 +30,9 @@
     "os-homedir": "^1.0.1",
     "pump": "^1.0.1",
     "rc": "^1.1.6",
-    "simple-get": "^1.4.2",
+    "simple-get": "^2.3.0",
     "tar-fs": "^1.13.0",
-    "tunnel-agent": "^0.6.0",
-    "xtend": "4.0.1"
+    "tunnel-agent": "^0.6.0"
   },
   "devDependencies": {
     "a-native-module": "^1.0.0",

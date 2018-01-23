@@ -1,10 +1,11 @@
-var path = require('path')
-var github = require('github-from-package')
-var home = require('os-homedir')
-var expandTemplate = require('expand-template')()
+const path = require('path')
+const github = require('github-from-package')
+const home = require('os-homedir')
+const expandTemplate = require('expand-template')()
+const fs = require('fs')
 
 function getDownloadUrl (opts) {
-  var pkgName = opts.pkg.name.replace(/^@\w+\//, '')
+  const pkgName = opts.pkg.name.replace(/^@\w+\//, '')
   return expandTemplate(urlTemplate(opts), {
     name: pkgName,
     package_name: pkgName,
@@ -30,8 +31,8 @@ function urlTemplate (opts) {
     return opts.download
   }
 
-  var packageName = '{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz'
-  var hostMirrorUrl = getHostMirrorUrl(opts)
+  const packageName = '{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz'
+  const hostMirrorUrl = getHostMirrorUrl(opts)
 
   if (hostMirrorUrl) {
     return hostMirrorUrl + '/v{version}/' + packageName
@@ -42,7 +43,7 @@ function urlTemplate (opts) {
       opts.pkg.binary.host,
       opts.pkg.binary.remote_path,
       opts.pkg.binary.package_name || packageName
-    ].map(function (path) {
+    ].map((path) => {
       return trimSlashes(path)
     }).filter(Boolean).join('/')
   }
@@ -84,6 +85,13 @@ function isYarnPath (execPath) {
   return execPath ? /^yarn/.test(path.basename(execPath)) : false
 }
 
+function exists (path, callback) {
+  fs.access(path, (err) => {
+    if (err) return callback(false)
+    callback(true)
+  })
+}
+
 exports.getDownloadUrl = getDownloadUrl
 exports.urlTemplate = urlTemplate
 exports.cachedPrebuild = cachedPrebuild
@@ -92,3 +100,4 @@ exports.prebuildCache = prebuildCache
 exports.npmCache = npmCache
 exports.tempFile = tempFile
 exports.isYarnPath = isYarnPath
+exports.exists = exists

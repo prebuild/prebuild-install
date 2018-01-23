@@ -1,4 +1,4 @@
-exports.noPrebuilts = function (opts) {
+exports.noPrebuilts = (opts) => {
   return new Error([
     'No prebuilt binaries found',
     '(target=' + opts.target,
@@ -8,6 +8,6 @@ exports.noPrebuilts = function (opts) {
   ].join(' '))
 }
 
-exports.invalidArchive = function () {
+exports.invalidArchive = () => {
   return new Error('Missing .node file in archive')
 }

@@ -1,16 +1,16 @@
-var minimist = require('minimist')
-var getAbi = require('node-abi').getAbi
-var detectLibc = require('detect-libc')
+const minimist = require('minimist')
+const getAbi = require('node-abi').getAbi
+const detectLibc = require('detect-libc')
 
-var env = process.env
+const env = process.env
 
-var libc = env.LIBC || (detectLibc.isNonGlibcLinux && detectLibc.family) || ''
+const libc = env.LIBC || (detectLibc.isNonGlibcLinux && detectLibc.family) || ''
 
 // Get `prebuild-install` arguments that were passed to the `npm` command
 if (env.npm_config_argv) {
-  var npmargs = ['prebuild', 'compile', 'build-from-source', 'debug']
+  const npmargs = ['prebuild', 'compile', 'build-from-source', 'debug']
   try {
-    var npmArgv = JSON.parse(env.npm_config_argv).cooked
+    const npmArgv = JSON.parse(env.npm_config_argv).cooked
     for (var i = 0; i < npmargs.length; ++i) {
       if (npmArgv.indexOf('--' + npmargs[i]) !== -1) {
         process.argv.push('--' + npmargs[i])
@@ -26,9 +26,9 @@ if (env.npm_config_argv) {
 }
 
 // Get the configuration
-module.exports = function (pkg) {
-  var pkgConf = pkg.config || {}
-  var rc = require('rc')('prebuild-install', {
+module.exports = (pkg) => {
+  const pkgConf = pkg.config || {}
+  const rc = require('rc')('prebuild-install', {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
     runtime: pkgConf.runtime || env.npm_config_runtime || 'node',
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
