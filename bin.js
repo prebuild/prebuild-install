@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 
-var path = require('path')
-var log = require('npmlog')
-var fs = require('fs')
-var extend = require('xtend')
+const path = require('path')
+const log = require('npmlog')
+const fs = require('fs')
 
-var pkg = require(path.resolve('package.json'))
-var rc = require('./rc')(pkg)
-var download = require('./download')
-var util = require('./util')
+const pkg = require(path.resolve('package.json'))
+const rc = require('./rc')(pkg)
+const download = require('./download')
+const util = require('./util')
 
-var prebuildClientVersion = require('./package.json').version
+const prebuildClientVersion = require('./package.json').version
 if (rc.version) {
   console.log(prebuildClientVersion)
   process.exit(0)
@@ -35,9 +34,9 @@ if (rc.help) {
 
 log.info('begin', 'Prebuild-install version', prebuildClientVersion)
 
-var opts = extend(rc, {pkg: pkg, log: log})
+const opts = Object.assign({}, rc, {pkg: pkg, log: log})
 
-var execPath = process.env.npm_execpath || process.env.NPM_CLI_JS
+const execPath = process.env.npm_execpath || process.env.NPM_CLI_JS
 
 if (util.isYarnPath(execPath) && /node_modules/.test(process.cwd())) {
   // From yarn repository
@@ -55,7 +54,7 @@ if (util.isYarnPath(execPath) && /node_modules/.test(process.cwd())) {
   process.exit(1)
 }
 
-download(opts, function (err) {
+download(opts, (err) => {
   if (err) {
     log.warn('install', err.message)
     return process.exit(1)

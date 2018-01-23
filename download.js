@@ -1,32 +1,31 @@
-var path = require('path')
-var fs = require('fs')
-var get = require('simple-get')
-var pump = require('pump')
-var tfs = require('tar-fs')
-var extend = require('xtend')
-var noop = extend({
+const path = require('path')
+const fs = require('fs')
+const get = require('simple-get')
+const pump = require('pump')
+const tfs = require('tar-fs')
+const noop = Object.assign({
   http: function () {},
   silly: function () {}
 }, require('noop-logger'))
-var zlib = require('zlib')
-var util = require('./util')
-var error = require('./error')
-var url = require('url')
-var tunnel = require('tunnel-agent')
-var mkdirp = require('mkdirp')
+const zlib = require('zlib')
+const util = require('./util')
+const error = require('./error')
+const url = require('url')
+const tunnel = require('tunnel-agent')
+const mkdirp = require('mkdirp')
 
 function downloadPrebuild (opts, cb) {
-  var downloadUrl = util.getDownloadUrl(opts)
+  const downloadUrl = util.getDownloadUrl(opts)
   var cachedPrebuild = util.cachedPrebuild(downloadUrl)
-  var localPrebuild = util.localPrebuild(downloadUrl)
-  var tempFile = util.tempFile(cachedPrebuild)
+  const localPrebuild = util.localPrebuild(downloadUrl)
+  const tempFile = util.tempFile(cachedPrebuild)
 
-  var log = opts.log || noop
+  const log = opts.log || noop
 
   if (opts.nolocal) return download()
 
   log.info('looking for local prebuild @', localPrebuild)
-  fs.exists(localPrebuild, function (exists) {
+  util.exists(localPrebuild, (exists) => {
     if (exists) {
       log.info('found local prebuild')
       cachedPrebuild = localPrebuild
@@ -37,26 +36,26 @@ function downloadPrebuild (opts, cb) {
   })
 
   function download () {
-    ensureNpmCacheDir(function (err) {
+    ensureNpmCacheDir((err) => {
       if (err) return onerror(err)
 
       log.info('looking for cached prebuild @', cachedPrebuild)
-      fs.exists(cachedPrebuild, function (exists) {
+      util.exists(cachedPrebuild, (exists) => {
         if (exists) {
           log.info('found cached prebuild')
           return unpack()
         }
 
         log.http('request', 'GET ' + downloadUrl)
-        var reqOpts = { url: downloadUrl }
-        var proxy = opts['https-proxy'] || opts.proxy
+        const reqOpts = { url: downloadUrl }
+        const proxy = opts['https-proxy'] || opts.proxy
 
         if (proxy) {
-          var parsedDownloadUrl = url.parse(downloadUrl)
-          var parsedProxy = url.parse(proxy)
-          var uriProtocol = (parsedDownloadUrl.protocol === 'https:' ? 'https' : 'http')
-          var proxyProtocol = (parsedProxy.protocol === 'https:' ? 'Https' : 'Http')
-          var tunnelFnName = [uriProtocol, proxyProtocol].join('Over')
+          const parsedDownloadUrl = url.parse(downloadUrl)
+          const parsedProxy = url.parse(proxy)
+          const uriProtocol = (parsedDownloadUrl.protocol === 'https:' ? 'https' : 'http')
+          const proxyProtocol = (parsedProxy.protocol === 'https:' ? 'Https' : 'Http')
+          const tunnelFnName = [uriProtocol, proxyProtocol].join('Over')
           reqOpts.agent = tunnel[tunnelFnName]({
             proxy: {
               host: parsedProxy.hostname,
@@ -71,15 +70,15 @@ function downloadPrebuild (opts, cb) {
             ' Tunneling with ' + tunnelFnName)
         }
 
-        var req = get(reqOpts, function (err, res) {
+        const req = get(reqOpts, (err, res) => {
           if (err) return onerror(err)
           log.http(res.statusCode, downloadUrl)
           if (res.statusCode !== 200) return onerror()
-          mkdirp(util.prebuildCache(), function () {
+          mkdirp(util.prebuildCache(), () => {
             log.info('downloading to @', tempFile)
-            pump(res, fs.createWriteStream(tempFile), function (err) {
+            pump(res, fs.createWriteStream(tempFile), (err) => {
               if (err) return onerror(err)
-              fs.rename(tempFile, cachedPrebuild, function (err) {
+              fs.rename(tempFile, cachedPrebuild, (err) => {
                 if (err) return cb(err)
                 log.info('renaming to @', cachedPrebuild)
                 unpack()
@@ -88,13 +87,13 @@ function downloadPrebuild (opts, cb) {
           })
         })
 
-        req.setTimeout(30 * 1000, function () {
+        req.setTimeout(30 * 1000, () => {
           req.abort()
         })
       })
 
       function onerror (err) {
-        fs.unlink(tempFile, function () {
+        fs.unlink(tempFile, () => {
           cb(err || error.noPrebuilts(opts))
         })
       }
@@ -104,21 +103,21 @@ function downloadPrebuild (opts, cb) {
   function unpack () {
     var binaryName
 
-    var updateName = opts.updateName || function (entry) {
+    const updateName = opts.updateName || function (entry) {
       if (/\.node$/i.test(entry.name)) binaryName = entry.name
     }
 
     log.info('unpacking @', cachedPrebuild)
 
-    var options = {
+    const options = {
       readable: true,
       writable: true,
       hardlinkAsFilesFallback: true
     }
-    var extract = tfs.extract(opts.path, options).on('entry', updateName)
+    const extract = tfs.extract(opts.path, options).on('entry', updateName)
 
     pump(fs.createReadStream(cachedPrebuild), zlib.createGunzip(), extract,
-    function (err) {
+    (err) => {
       if (err) return cb(err)
 
       var resolved
@@ -145,20 +144,13 @@ function downloadPrebuild (opts, cb) {
   }
 
   function ensureNpmCacheDir (cb) {
-    var cacheFolder = util.npmCache()
-    if (fs.access) {
-      fs.access(cacheFolder, fs.R_OK | fs.W_OK, function (err) {
-        if (err && err.code === 'ENOENT') {
-          return makeNpmCacheDir()
-        }
-        cb(err)
-      })
-    } else {
-      fs.exists(cacheFolder, function (exists) {
-        if (!exists) return makeNpmCacheDir()
-        cb()
-      })
-    }
+    const cacheFolder = util.npmCache()
+    fs.access(cacheFolder, fs.R_OK | fs.W_OK, (err) => {
+      if (err && err.code === 'ENOENT') {
+        return makeNpmCacheDir()
+      }
+      cb(err)
+    })
 
     function makeNpmCacheDir () {
       log.info('npm cache directory missing, creating it...')
