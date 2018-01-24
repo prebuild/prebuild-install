@@ -3,7 +3,6 @@
 var path = require('path')
 var log = require('npmlog')
 var fs = require('fs')
-var extend = require('xtend')
 
 var pkg = require(path.resolve('package.json'))
 var rc = require('./rc')(pkg)
@@ -35,7 +34,7 @@ if (rc.help) {
 
 log.info('begin', 'Prebuild-install version', prebuildClientVersion)
 
-var opts = extend(rc, {pkg: pkg, log: log})
+var opts = Object.assign({}, rc, {pkg: pkg, log: log})
 
 var execPath = process.env.npm_execpath || process.env.NPM_CLI_JS
 

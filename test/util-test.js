@@ -3,7 +3,6 @@ var fs = require('fs')
 var home = require('os-homedir')
 var util = require('../util')
 var path = require('path')
-var xtend = require('xtend')
 
 test('prebuildCache() for different environments', function (t) {
   var NPMCACHE = process.env.npm_config_cache
@@ -77,7 +76,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
   var t6 = util.urlTemplate(o6)
   t.equal(t6, 'http://foo.com/w00t/{name}-{major}.{minor}-{runtime}-v{abi}-{platform}-{arch}.tar.gz', 'pkg.binary.package_name is added after host and remote_path, custom format')
   var o7 = {
-    pkg: xtend(require('../package.json')),
+    pkg: require('../package.json'),
     download: true
   }
   delete o7.binary
@@ -87,7 +86,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
   delete process.env[envProperty]
   t.equal(t7, 'http://overriden-url.com/overriden-path/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with host mirror override')
   var o8 = {
-    pkg: xtend(require('../package.json'), {
+    pkg: Object.assign({}, require('../package.json'), {
       binary: {
         host: 'http://foo.com',
         remote_path: 'w00t',

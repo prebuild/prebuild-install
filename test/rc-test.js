@@ -1,7 +1,6 @@
 var test = require('tape')
 var path = require('path')
 var exec = require('child_process').exec
-var xtend = require('xtend')
 
 test('custom config and aliases', function (t) {
   var args = [
@@ -103,7 +102,7 @@ test('use default ABI', function (t) {
 
 function runRc (t, args, env, cb) {
   var cmd = 'node ' + path.resolve(__dirname, '..', 'rc.js') + ' ' + args
-  env = xtend(process.env, env)
+  env = Object.assign({}, process.env, env)
   exec(cmd, { env: env }, function (err, stdout, stderr) {
     t.error(err, 'no error')
     t.equal(stderr.length, 0, 'no stderr')
