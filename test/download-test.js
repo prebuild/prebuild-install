@@ -221,6 +221,7 @@ function getOpts () {
   return {
     pkg: require('a-native-module/package'),
     nolocal: true,
+    runtime: 'node',
     platform: process.platform,
     arch: process.arch,
     path: __dirname
