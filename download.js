@@ -15,7 +15,7 @@ var tunnel = require('tunnel-agent')
 var mkdirp = require('mkdirp')
 
 function downloadPrebuild (opts, cb) {
-  var downloadUrl = util.getDownloadUrl(opts)
+  var downloadUrl = util.getAssetUrl(opts)
   var cachedPrebuild = util.cachedPrebuild(downloadUrl)
   var localPrebuild = util.localPrebuild(downloadUrl)
   var tempFile = util.tempFile(cachedPrebuild)
@@ -49,6 +49,15 @@ function downloadPrebuild (opts, cb) {
         log.http('request', 'GET ' + downloadUrl)
         var reqOpts = { url: downloadUrl }
         var proxy = opts['https-proxy'] || opts.proxy
+
+        reqOpts.headers = {
+          'User-Agent': 'simple-get',
+          'Accept': 'application/octet-stream'
+        }
+
+      	if (opts.token){
+      		reqOpts.url += '?access_token=' + opts.token
+      	}
 
         if (proxy) {
           var parsedDownloadUrl = url.parse(downloadUrl)

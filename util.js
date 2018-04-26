@@ -25,6 +25,14 @@ function getDownloadUrl (opts) {
   })
 }
 
+function getApiUrl (opts) {
+  return github(opts.pkg).replace('github.com', 'api.github.com/repos') + '/releases'
+}
+
+function getAssetUrl (opts) {
+  return getApiUrl(opts) + '/assets/' + opts.assetId
+}
+
 function urlTemplate (opts) {
   if (typeof opts.download === 'string') {
     return opts.download
@@ -81,6 +89,8 @@ function localPrebuild (url) {
 }
 
 exports.getDownloadUrl = getDownloadUrl
+exports.getApiUrl = getApiUrl
+exports.getAssetUrl = getAssetUrl
 exports.urlTemplate = urlTemplate
 exports.cachedPrebuild = cachedPrebuild
 exports.localPrebuild = localPrebuild

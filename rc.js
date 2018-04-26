@@ -42,7 +42,8 @@ module.exports = function (pkg) {
     path: '.',
     proxy: env.npm_config_proxy || env['HTTP_PROXY'],
     'https-proxy': env.npm_config_https_proxy || env['HTTPS_PROXY'],
-    'local-address': env.npm_config_local_address
+    'local-address': env.npm_config_local_address,
+    token: process.env.GITHUB_TOKEN
   }, minimist(process.argv, {
     alias: {
       target: 't',
@@ -53,7 +54,8 @@ module.exports = function (pkg) {
       version: 'v',
       download: 'd',
       'build-from-source': 'compile',
-      compile: 'c'
+      compile: 'c',
+      token: 'T'
     }
   }))
 
