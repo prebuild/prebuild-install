@@ -7,7 +7,9 @@ var path = require('path')
 var util = require('./util')
 
 function findAssetId (opts, cb) {
-	var downloadUrl = util.getDownloadUrl(opts)
+  if (!opts.token) return cb()
+
+  var downloadUrl = util.getDownloadUrl(opts)
 	var apiUrl = util.getApiUrl(opts)
 	var log = opts.log || noop
 
