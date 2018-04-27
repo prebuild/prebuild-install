@@ -55,9 +55,9 @@ function downloadPrebuild (opts, cb) {
           'Accept': 'application/octet-stream'
         }
 
-      	if (opts.token){
-      		reqOpts.url += '?access_token=' + opts.token
-      	}
+        if (opts.token) {
+          reqOpts.url += '?access_token=' + opts.token
+        }
 
         if (proxy) {
           var parsedDownloadUrl = url.parse(downloadUrl)

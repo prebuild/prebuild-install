@@ -52,6 +52,10 @@ if (!isNpm && /node_modules/.test(process.cwd())) {
 }
 
 asset(opts, function (err, assetId) {
+  if (err) {
+    log.warn('install', err.message)
+    return process.exit(1)
+  }
   download(opts, function (err) {
     if (err) {
       log.warn('install', err.message)
