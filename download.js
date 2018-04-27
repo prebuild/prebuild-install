@@ -50,13 +50,12 @@ function downloadPrebuild (opts, cb) {
         var reqOpts = { url: downloadUrl }
         var proxy = opts['https-proxy'] || opts.proxy
 
-        reqOpts.headers = {
-          'User-Agent': 'simple-get',
-          'Accept': 'application/octet-stream'
-        }
-
         if (opts.token) {
           reqOpts.url += '?access_token=' + opts.token
+          reqOpts.headers = {
+            'User-Agent': 'simple-get',
+            'Accept': 'application/octet-stream'
+          }
         }
 
         if (proxy) {

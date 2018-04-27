@@ -51,7 +51,7 @@ if (!isNpm && /node_modules/.test(process.cwd())) {
   process.exit(1)
 }
 
-asset(opts, function (err, assetId) {
+asset(opts, function (err) {
   if (err) {
     log.warn('install', err.message)
     return process.exit(1)
