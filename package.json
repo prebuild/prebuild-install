@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "a-native-module": "^1.0.0",
+    "nock": "^9.2.5",
     "nsp": "^2.3.0",
     "rimraf": "^2.5.2",
     "standard": "^10.0.3",
