@@ -9,6 +9,7 @@ var rc = require('./rc')(pkg)
 var log = require('./log')(rc, process.env)
 var download = require('./download')
 var asset = require('./asset')
+var util = require('./util')
 
 var prebuildClientVersion = require('./package.json').version
 if (rc.version) {
@@ -62,16 +63,15 @@ var startDownload = function(downloadUrl) {
 }
 
 if (opts.token){
-  var downloadUrl = util.getAssetUrl(opts)
-  asset(opts, function (err) {
+  asset(opts, function (err, assetId) {
     if (err) {
       log.warn('install', err.message)
       return process.exit(1)
     }
-    startDownload(downloadUrl)
+
+    startDownload(util.getAssetUrl(opts))
   })
 
 }else{
-  var downloadUrl = util.getDownloadUrl(opts)
-  startDownload(downloadUrl)
+  startDownload(util.getDownloadUrl(opts))
 }
