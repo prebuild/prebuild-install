@@ -12,6 +12,7 @@ var releases = require('./releases.json')
 var build = path.join(__dirname, 'build')
 var unpacked = path.join(build, 'Release/leveldown.node')
 
+// Release assets call
 nock('https://api.github.com:443', {
   encodedQueryParams: true,
   reqheaders: {
@@ -23,6 +24,7 @@ nock('https://api.github.com:443', {
   .get('/repos/ralphtheninja/a-native-module/releases')
   .reply(200, releases)
 
+// Binary download
 nock('https://api.github.com:443', {
   encodedQueryParams: true,
   reqheaders: {
@@ -101,29 +103,13 @@ test('downloading from GitHub with token', function (t) {
   })
 })
 
-test('non existing host should fail asset request', function (t) {
-  t.plan(3)
-
-  var opts = getOpts()
-  opts.pkg.binary = {
-    host: 'https://foo.bar.baz'
-  }
-  asset(opts, function (err, assetId) {
-    t.ok(err, 'should error')
-    t.equal(assetId, undefined)
-
-    var downloadUrl = util.getAssetUrl(opts, assetId)
-    var cachedPrebuild = util.cachedPrebuild(downloadUrl)
-
-    t.equal(fs.existsSync(cachedPrebuild), false, 'nothing cached')
-  })
-})
-
 test('non existing version should fail asset request', function (t) {
   t.plan(3)
+  rm.sync(build)
+  rm.sync(util.prebuildCache())
 
   var opts = getOpts()
-  opts.pkg.version = 'v0'
+  opts.pkg = Object.assign({}, opts.pkg, { version: '0' })
   asset(opts, function (err, assetId) {
     t.ok(err, 'should error')
     t.equal(assetId, undefined)
