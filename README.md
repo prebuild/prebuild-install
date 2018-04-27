@@ -32,7 +32,7 @@ prebuild-install [options]
   --target      -t  version     (version to install for)
   --runtime     -r  runtime     (Node runtime [node or electron] to build or install for, default is node)
   --path        -p  path        (make a prebuild-install here)
-  --token       -t  gh-token    (github token for private repos)
+  --token       -T  gh-token    (github token for private repos)
   --build-from-source           (skip prebuild download)
   --verbose                     (log verbosely)
   --libc                        (use provided libc rather than system default)
