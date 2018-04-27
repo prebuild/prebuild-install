@@ -29,8 +29,8 @@ function getApiUrl (opts) {
   return github(opts.pkg).replace('github.com', 'api.github.com/repos') + '/releases'
 }
 
-function getAssetUrl (opts) {
-  return getApiUrl(opts) + '/assets/' + opts.assetId
+function getAssetUrl (opts, assetId) {
+  return getApiUrl(opts) + '/assets/' + assetId
 }
 
 function urlTemplate (opts) {

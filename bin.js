@@ -69,7 +69,7 @@ if (opts.token){
       return process.exit(1)
     }
 
-    startDownload(util.getAssetUrl(opts))
+    startDownload(util.getAssetUrl(opts, assetId))
   })
 
 }else{
