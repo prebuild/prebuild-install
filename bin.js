@@ -52,7 +52,7 @@ if (!isNpm && /node_modules/.test(process.cwd())) {
   process.exit(1)
 }
 
-var startDownload = function(downloadUrl) {
+var startDownload = function (downloadUrl) {
   download(downloadUrl, opts, function (err) {
     if (err) {
       log.warn('install', err.message)
@@ -62,7 +62,7 @@ var startDownload = function(downloadUrl) {
   })
 }
 
-if (opts.token){
+if (opts.token) {
   asset(opts, function (err, assetId) {
     if (err) {
       log.warn('install', err.message)
@@ -71,7 +71,6 @@ if (opts.token){
 
     startDownload(util.getAssetUrl(opts, assetId))
   })
-
-}else{
+} else {
   startDownload(util.getDownloadUrl(opts))
 }

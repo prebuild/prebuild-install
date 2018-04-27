@@ -8,21 +8,20 @@ var url = require('url')
 var tunnel = require('tunnel-agent')
 
 function findAssetId (opts, cb) {
-
   var downloadUrl = util.getDownloadUrl(opts)
   var apiUrl = util.getApiUrl(opts)
   var log = opts.log || noop
 
   log.http('request', 'GET ' + apiUrl)
-  var reqOpts = { url: apiUrl, json: true }
+  var reqOpts = {
+    url: apiUrl,
+    json: true,
+    headers: {
+      'User-Agent': 'simple-get',
+      Authorization: 'token ' + opts.token
+    }
+  }
   var proxy = opts['https-proxy'] || opts.proxy
-
-  reqOpts.headers = {
-    'User-Agent': 'simple-get'
-  }
-  if (opts.token) {
-    reqOpts.headers.Authorization = 'token ' + opts.token
-  }
 
   if (proxy) {
     var parsedDownloadUrl = url.parse(apiUrl)
