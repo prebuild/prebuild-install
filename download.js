@@ -14,8 +14,7 @@ var url = require('url')
 var tunnel = require('tunnel-agent')
 var mkdirp = require('mkdirp')
 
-function downloadPrebuild (opts, cb) {
-  var downloadUrl = opts.token ? util.getAssetUrl(opts) : util.getDownloadUrl(opts)
+function downloadPrebuild (downloadUrl, opts, cb) {
   var cachedPrebuild = util.cachedPrebuild(downloadUrl)
   var localPrebuild = util.localPrebuild(downloadUrl)
   var tempFile = util.tempFile(cachedPrebuild)

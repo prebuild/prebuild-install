@@ -8,7 +8,6 @@ var url = require('url')
 var tunnel = require('tunnel-agent')
 
 function findAssetId (opts, cb) {
-  if (!opts.token) return cb()
 
   var downloadUrl = util.getDownloadUrl(opts)
   var apiUrl = util.getApiUrl(opts)
@@ -55,8 +54,7 @@ function findAssetId (opts, cb) {
       if (release.tag_name === 'v' + opts.pkg.version) {
         for (var asset of release.assets) {
           if (asset.browser_download_url === downloadUrl) {
-            opts.assetId = asset.id
-            return cb()
+            return cb(null, asset.id)
           }
         }
       }

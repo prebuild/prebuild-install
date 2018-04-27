@@ -51,16 +51,27 @@ if (!isNpm && /node_modules/.test(process.cwd())) {
   process.exit(1)
 }
 
-asset(opts, function (err) {
-  if (err) {
-    log.warn('install', err.message)
-    return process.exit(1)
-  }
-  download(opts, function (err) {
+var startDownload = function(downloadUrl) {
+  download(downloadUrl, opts, function (err) {
     if (err) {
       log.warn('install', err.message)
       return process.exit(1)
     }
     log.info('install', 'Successfully installed prebuilt binary!')
   })
-})
+}
+
+if (opts.token){
+  var downloadUrl = util.getAssetUrl(opts)
+  asset(opts, function (err) {
+    if (err) {
+      log.warn('install', err.message)
+      return process.exit(1)
+    }
+    startDownload(downloadUrl)
+  })
+
+}else{
+  var downloadUrl = util.getDownloadUrl(opts)
+  startDownload(downloadUrl)
+}
