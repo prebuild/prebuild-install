@@ -205,7 +205,7 @@ test('should fail if abi is system abi with invalid binary', function (t) {
     var archive = path.join(__dirname, 'invalid.tar.gz')
     fs.createReadStream(archive).pipe(res)
   }).listen(8890, function () {
-    download(downloadUrl, opts, function (err) {
+    download(util.getDownloadUrl(opts), opts, function (err) {
       server.unref()
       if (err && typeof err.message === 'string') {
         t.pass('require failed because of invalid abi')
