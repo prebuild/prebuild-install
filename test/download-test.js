@@ -48,7 +48,7 @@ test('downloading from GitHub, not cached', function (t) {
 
   t.equal(fs.existsSync(build), false, 'no build folder')
 
-  download(opts, function (err) {
+  download(util.getDownloadUrl(opts), opts,function (err) {
     t.error(err, 'no error')
     t.equal(fs.existsSync(util.prebuildCache()), true, 'prebuildCache created')
     t.equal(fs.existsSync(cachedPrebuild), true, 'prebuild was cached')
@@ -81,7 +81,7 @@ test('cached prebuild', function (t) {
 
   t.equal(fs.existsSync(build), false, 'no build folder')
 
-  download(opts, function (err) {
+  download(util.getDownloadUrl(opts), opts,function (err) {
     t.error(err, 'no error')
     t.equal(fs.existsSync(unpacked), true, unpacked + ' should exist')
     fs.createReadStream = _createReadStream
@@ -108,7 +108,7 @@ test('non existing host should fail with no dangling temp file', function (t) {
 
   t.equal(fs.existsSync(cachedPrebuild), false, 'nothing cached')
 
-  download(opts, function (err) {
+  download(util.getDownloadUrl(opts), opts,function (err) {
     t.ok(err, 'should error')
     t.equal(fs.existsSync(cachedPrebuild), false, 'nothing cached')
     fs.createWriteStream = _createWriteStream
@@ -133,7 +133,7 @@ test('existing host but invalid url should fail', function (t) {
     res.statusCode = 404
     res.end()
   }).listen(8888, function () {
-    download(opts, function (err) {
+    download(util.getDownloadUrl(opts), opts,function (err) {
       t.same(err, error.noPrebuilts(opts))
       t.equal(fs.existsSync(cachedPrebuild), false, 'nothing cached')
       t.end()
@@ -184,7 +184,7 @@ test('error during download should fail with no dangling temp file', function (t
     res.statusCode = 200
     res.write('yep') // simulates hanging request
   }).listen(8889, function () {
-    download(opts, function (err) {
+    download(util.getDownloadUrl(opts), opts,function (err) {
       t.equal(err.message, downloadError.message, 'correct error')
       t.equal(fs.existsSync(tempFile), false, 'no dangling temp file')
       t.equal(fs.existsSync(cachedPrebuild), false, 'nothing cached')
@@ -205,7 +205,7 @@ test('should fail if abi is system abi with invalid binary', function (t) {
     var archive = path.join(__dirname, 'invalid.tar.gz')
     fs.createReadStream(archive).pipe(res)
   }).listen(8890, function () {
-    download(opts, function (err) {
+    download(util.getDownloadUrl(opts), opts,function (err) {
       server.unref()
       if (err && typeof err.message === 'string') {
         t.pass('require failed because of invalid abi')
