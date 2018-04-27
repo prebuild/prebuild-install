@@ -58,7 +58,7 @@ function findAssetId (opts, cb) {
         }
       }
 
-      throw new Error('Could not find GitHub release for version')
+      cb(new Error('Could not find GitHub release for version'))
     }
   })
 
