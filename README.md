@@ -44,6 +44,36 @@ When `prebuild-install` is run via an `npm` script, options
 `--build-from-source`, `--debug` and `--download`, may be passed through via
 arguments given to the `npm` command.
 
+### Private Repositories
+
+`prebuild-install` supports downloading prebuilds from private GitHub repositories using the `-T <github-token>`:
+
+```
+$ prebuild-install -T <github-token>
+```
+
+If you don't want to use the token on cli you can put it in `~/.prebuild-installrc`:
+
+```
+token=<github-token>
+```
+
+Alternatively you can specify it in the `prebuild-install_token` environment variable.
+
+Note that using a GitHub token uses the API to resolve the correct release meaning that you are subject to the ([GitHub Rate Limit](https://developer.github.com/v3/rate_limit/)).
+
+### Create GitHub Token
+
+To create a token:
+
+* Go to [this page](https://github.com/settings/tokens)
+* Click the `Generate new token` button
+* Give the token a name and click the `Generate token` button, see below
+
+![prebuild-token](https://cloud.githubusercontent.com/assets/13285808/20844584/d0b85268-b8c0-11e6-8b08-2b19522165a9.png)
+
+The default scopes should be fine.
+
 ### Custom binaries
 The end user can override binary download location through environment variables in their .npmrc file.
 The variable needs to meet the mask `% your package name %_binary_host` or `% your package name %_binary_host_mirror`. For example:
