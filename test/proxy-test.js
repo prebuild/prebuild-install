@@ -25,9 +25,9 @@ test('downloading using proxy', function (t) {
   t.equal(request.Authorization, reqOpts.Authorization, 'Request auth remains the same')
 
   t.equal(request.agent.proxyOptions.host, 'hostname.com', 'Proxy hostname is set')
-  t.equal(request.agent.proxyOptions.port, 8080, 'Proxy hostname is set')
-  t.equal(request.agent.proxyOptions.proxyAuth, 'user:pass', 'Proxy hostname is set')
-  t.equal(request.agent.defaultPort, 443, 'Proxy port is set')
+  t.equal(request.agent.proxyOptions.port, 8080, 'Proxy port is set')
+  t.equal(request.agent.proxyOptions.proxyAuth, 'user:pass', 'Proxy auth is set')
+  t.equal(request.agent.defaultPort, 443, 'Proxy default port is set')
 })
 
 test('downloading without using proxy', function (t) {
