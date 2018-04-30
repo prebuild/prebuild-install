@@ -1,11 +1,10 @@
 var get = require('simple-get')
+var util = require('./util')
+var proxy = require('./proxy')
 var noop = Object.assign({
   http: function () {},
   silly: function () {}
 }, require('noop-logger'))
-var util = require('./util')
-var url = require('url')
-var tunnel = require('tunnel-agent')
 
 function findAssetId (opts, cb) {
   var downloadUrl = util.getDownloadUrl(opts)
@@ -13,35 +12,14 @@ function findAssetId (opts, cb) {
   var log = opts.log || noop
 
   log.http('request', 'GET ' + apiUrl)
-  var reqOpts = {
+  var reqOpts = proxy({
     url: apiUrl,
     json: true,
     headers: {
       'User-Agent': 'simple-get',
       Authorization: 'token ' + opts.token
     }
-  }
-  var proxy = opts['https-proxy'] || opts.proxy
-
-  if (proxy) {
-    var parsedDownloadUrl = url.parse(apiUrl)
-    var parsedProxy = url.parse(proxy)
-    var uriProtocol = (parsedDownloadUrl.protocol === 'https:' ? 'https' : 'http')
-    var proxyProtocol = (parsedProxy.protocol === 'https:' ? 'Https' : 'Http')
-    var tunnelFnName = [uriProtocol, proxyProtocol].join('Over')
-    reqOpts.agent = tunnel[tunnelFnName]({
-      proxy: {
-        host: parsedProxy.hostname,
-        port: +parsedProxy.port,
-        proxyAuth: parsedProxy.auth
-      }
-    })
-    log.http('request', 'Proxy setup detected (Host: ' +
-    parsedProxy.hostname + ', Port: ' +
-      parsedProxy.port + ', Authentication: ' +
-      (parsedProxy.auth ? 'Yes' : 'No') + ')' +
-      ' Tunneling with ' + tunnelFnName)
-  }
+  }, opts)
 
   var req = get.concat(reqOpts, function (err, res, data) {
     if (err) return cb(err)
