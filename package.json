@@ -1,6 +1,6 @@
 {
-  "version": "2.5.4",
   "name": "prebuild-install",
+  "version": "2.5.3",
   "description": "A command line tool for easily install prebuilds for multiple version of node/iojs on a specific platform",
   "scripts": {
     "test": "verify-travis-appveyor && tape test/*-test.js && npm run audit && npm run lint",
