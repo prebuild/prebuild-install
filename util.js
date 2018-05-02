@@ -1,6 +1,7 @@
 var path = require('path')
 var github = require('github-from-package')
 var home = require('os-homedir')
+var crypto = require('crypto')
 var expandTemplate = require('expand-template')()
 
 function getDownloadUrl (opts) {
@@ -68,7 +69,8 @@ function trimSlashes (str) {
 }
 
 function cachedPrebuild (url) {
-  return path.join(prebuildCache(), url.replace(/[^a-zA-Z0-9.]+/g, '-'))
+  var digest = crypto.createHash('md5').update(url).digest('hex').slice(0, 6)
+  return path.join(prebuildCache(), digest + '-' + path.basename(url).replace(/[^a-zA-Z0-9.]+/g, '-'))
 }
 
 function npmCache () {
