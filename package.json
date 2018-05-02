@@ -1,7 +1,7 @@
 {
   "name": "prebuild-install",
   "version": "3.0.0",
-  "description": "A command line tool for easily installing prebuilt binaries for multiple version of node/iojs on a specific platform",
+  "description": "A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform",
   "scripts": {
     "test": "verify-travis-appveyor && tape test/*-test.js && npm run audit && npm run lint",
     "audit": "nsp check",

@@ -1,6 +1,6 @@
 # prebuild-install
 
-> A command line tool for easily installing prebuilt binaries for multiple version of node/iojs on a specific platform.
+> A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform.
 
 [![npm](https://img.shields.io/npm/v/prebuild-install.svg)](https://www.npmjs.com/package/prebuild-install)
 ![Node version](https://img.shields.io/node/v/prebuild-install.svg)
