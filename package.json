@@ -47,7 +47,7 @@
   "bin": "./bin.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mafintosh/prebuild-install.git"
+    "url": "https://github.com/prebuild/prebuild-install.git"
   },
   "author": "Mathias Buus (@mafintosh)",
   "contributors": [
@@ -61,9 +61,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mafintosh/prebuild-install/issues"
+    "url": "https://github.com/prebuild/prebuild-install/issues"
   },
-  "homepage": "https://github.com/mafintosh/prebuild-install",
+  "homepage": "https://github.com/prebuild/prebuild-install",
   "engines": {
     "node": ">=4"
   }
