@@ -24,7 +24,7 @@ Change your package.json install script to:
 
 ### Requirements
 
-You need to provide prebuilds made by [prebuild](https://github.com/mafintosh/prebuild).
+You need to provide prebuilds made by [`prebuild`](https://github.com/prebuild/prebuild).
 
 ### Help
 ```
