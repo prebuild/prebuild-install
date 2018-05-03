@@ -14,12 +14,12 @@
 ## Usage
 
 Change your package.json install script to:
-```
-...
+```json
+{
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild"
   }
-...
+}
 ```
 
 ### Requirements
