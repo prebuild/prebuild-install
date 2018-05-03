@@ -102,7 +102,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
   t.equal(t8, 'http://overriden-url.com/overriden-path/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with binary defined and host mirror override')
   var o9 = {pkg: require('../package.json'), download: true}
   var t9 = util.urlTemplate(o9)
-  t.equal(t9, 'https://github.com/mafintosh/prebuild-install/releases/download/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, no host mirror, default format')
+  t.equal(t9, 'https://github.com/prebuild/prebuild-install/releases/download/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, no host mirror, default format')
   t.end()
 })
 
