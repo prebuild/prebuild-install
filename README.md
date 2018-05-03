@@ -88,6 +88,14 @@ So if you are installing `leveldown@1.2.3` the resulting url will be:
 http://overriden-host.com/overriden-path/v1.2.3/leveldown-v1.2.3-node-v57-win32-x64.tar.gz
 ```
 
+### Cache
+
+All prebuilt binaries are cached to minimize traffic. So first `prebuild-install` picks binaries from the cache and if no binary could be found, it will be downloaded. Depending on the environment, the cache folder is determined in the following order:
+
+* `${npm_config_cache}/_prebuilds`
+* `${APP_DATA}/npm-cache/_prebuilds`
+* `${HOME}/.npm/_prebuilds`
+
 ## License
 
 MIT
