@@ -15,75 +15,58 @@ var mkdirp = require('mkdirp')
 
 function downloadPrebuild (downloadUrl, opts, cb) {
   var cachedPrebuild = util.cachedPrebuild(downloadUrl)
-  var localPrebuild = util.localPrebuild(downloadUrl)
   var tempFile = util.tempFile(cachedPrebuild)
-
   var log = opts.log || noop
 
-  if (opts.nolocal) return download()
+  ensureNpmCacheDir(function (err) {
+    if (err) return onerror(err)
 
-  log.info('looking for local prebuild @', localPrebuild)
-  fs.access(localPrebuild, fs.R_OK | fs.W_OK, function (err) {
-    if (err && err.code === 'ENOENT') {
-      return download()
-    }
+    log.info('looking for cached prebuild @', cachedPrebuild)
+    fs.access(cachedPrebuild, fs.R_OK | fs.W_OK, function (err) {
+      if (!(err && err.code === 'ENOENT')) {
+        log.info('found cached prebuild')
+        return unpack()
+      }
 
-    log.info('found local prebuild')
-    cachedPrebuild = localPrebuild
-    unpack()
-  })
+      log.http('request', 'GET ' + downloadUrl)
+      var reqOpts = proxy({ url: downloadUrl }, opts)
 
-  function download () {
-    ensureNpmCacheDir(function (err) {
-      if (err) return onerror(err)
-
-      log.info('looking for cached prebuild @', cachedPrebuild)
-      fs.access(cachedPrebuild, fs.R_OK | fs.W_OK, function (err) {
-        if (!(err && err.code === 'ENOENT')) {
-          log.info('found cached prebuild')
-          return unpack()
+      if (opts.token) {
+        reqOpts.url += '?access_token=' + opts.token
+        reqOpts.headers = {
+          'User-Agent': 'simple-get',
+          'Accept': 'application/octet-stream'
         }
+      }
 
-        log.http('request', 'GET ' + downloadUrl)
-        var reqOpts = proxy({ url: downloadUrl }, opts)
-
-        if (opts.token) {
-          reqOpts.url += '?access_token=' + opts.token
-          reqOpts.headers = {
-            'User-Agent': 'simple-get',
-            'Accept': 'application/octet-stream'
-          }
-        }
-
-        var req = get(reqOpts, function (err, res) {
-          if (err) return onerror(err)
-          log.http(res.statusCode, downloadUrl)
-          if (res.statusCode !== 200) return onerror()
-          mkdirp(util.prebuildCache(), function () {
-            log.info('downloading to @', tempFile)
-            pump(res, fs.createWriteStream(tempFile), function (err) {
-              if (err) return onerror(err)
-              fs.rename(tempFile, cachedPrebuild, function (err) {
-                if (err) return cb(err)
-                log.info('renaming to @', cachedPrebuild)
-                unpack()
-              })
+      var req = get(reqOpts, function (err, res) {
+        if (err) return onerror(err)
+        log.http(res.statusCode, downloadUrl)
+        if (res.statusCode !== 200) return onerror()
+        mkdirp(util.prebuildCache(), function () {
+          log.info('downloading to @', tempFile)
+          pump(res, fs.createWriteStream(tempFile), function (err) {
+            if (err) return onerror(err)
+            fs.rename(tempFile, cachedPrebuild, function (err) {
+              if (err) return cb(err)
+              log.info('renaming to @', cachedPrebuild)
+              unpack()
             })
           })
         })
-
-        req.setTimeout(30 * 1000, function () {
-          req.abort()
-        })
       })
 
-      function onerror (err) {
-        fs.unlink(tempFile, function () {
-          cb(err || error.noPrebuilts(opts))
-        })
-      }
+      req.setTimeout(30 * 1000, function () {
+        req.abort()
+      })
     })
-  }
+
+    function onerror (err) {
+      fs.unlink(tempFile, function () {
+        cb(err || error.noPrebuilts(opts))
+      })
+    }
+  })
 
   function unpack () {
     var binaryName

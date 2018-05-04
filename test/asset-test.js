@@ -124,7 +124,6 @@ test('non existing version should fail asset request', function (t) {
 function getOpts () {
   return {
     pkg: require('a-native-module/package'),
-    nolocal: true,
     runtime: 'node',
     platform: process.platform,
     arch: process.arch,

@@ -86,16 +86,11 @@ function tempFile (cached) {
   return cached + '.' + process.pid + '-' + Math.random().toString(16).slice(2) + '.tmp'
 }
 
-function localPrebuild (url) {
-  return path.join('prebuilds', path.basename(url))
-}
-
 exports.getDownloadUrl = getDownloadUrl
 exports.getApiUrl = getApiUrl
 exports.getAssetUrl = getAssetUrl
 exports.urlTemplate = urlTemplate
 exports.cachedPrebuild = cachedPrebuild
-exports.localPrebuild = localPrebuild
 exports.prebuildCache = prebuildCache
 exports.npmCache = npmCache
 exports.tempFile = tempFile

@@ -220,7 +220,6 @@ test('should fail if abi is system abi with invalid binary', function (t) {
 function getOpts () {
   return {
     pkg: require('a-native-module/package'),
-    nolocal: true,
     runtime: 'node',
     platform: process.platform,
     arch: process.arch,
