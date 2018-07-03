@@ -35,9 +35,9 @@ function findAssetId (opts, cb) {
           }
         }
       }
-
-      cb(new Error('Could not find GitHub release for version'))
     }
+    
+    cb(new Error('Could not find GitHub release for version'))
   })
 
   req.setTimeout(30 * 1000, function () {
