@@ -1,6 +1,7 @@
 var minimist = require('minimist')
 var getAbi = require('node-abi').getAbi
 var detectLibc = require('detect-libc')
+var napi = require('./napi')
 
 var env = process.env
 
@@ -62,7 +63,11 @@ module.exports = function (pkg) {
     delete rc.path
   }
 
-  rc.abi = getAbi(rc.target, rc.runtime)
+  if (napi.isNapiRuntime(rc.runtime) && rc.target === process.versions.node) {
+    rc.target = napi.getBestNapiBuildVersion()
+  }
+
+  rc.abi = napi.isNapiRuntime(rc.runtime) ? rc.target : getAbi(rc.target, rc.runtime)
 
   return rc
 }

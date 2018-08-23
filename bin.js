@@ -10,6 +10,7 @@ var log = require('./log')(rc, process.env)
 var download = require('./download')
 var asset = require('./asset')
 var util = require('./util')
+var napi = require('./napi')
 
 var prebuildClientVersion = require('./package.json').version
 if (rc.version) {
@@ -32,6 +33,8 @@ if (rc.help) {
 log.info('begin', 'Prebuild-install version', prebuildClientVersion)
 
 var opts = Object.assign({}, rc, {pkg: pkg, log: log})
+
+if (napi.isNapiRuntime(rc.runtime)) napi.warnUnsupportedVersion(rc.target)
 
 var pm = whichPmRuns()
 var isNpm = !pm || pm.name === 'npm'

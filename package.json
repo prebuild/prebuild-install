@@ -16,7 +16,8 @@
     "c",
     "c++",
     "bindings",
-    "devops"
+    "devops",
+    "napi"
   ],
   "dependencies": {
     "detect-libc": "^1.0.3",

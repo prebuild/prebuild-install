@@ -32,7 +32,7 @@ prebuild-install [options]
 
   --download    -d  [url]       (download prebuilds, no url means github)
   --target      -t  version     (version to install for)
-  --runtime     -r  runtime     (Node runtime [node or electron] to build or install for, default is node)
+  --runtime     -r  runtime     (Node runtime [node, napi or electron] to build or install for, default is node)
   --path        -p  path        (make a prebuild-install here)
   --token       -T  gh-token    (github token for private repos)
   --build-from-source           (skip prebuild download)
@@ -40,7 +40,7 @@ prebuild-install [options]
   --libc                        (use provided libc rather than system default)
   --debug                       (set Debug or Release configuration)
   --version                     (print prebuild-install version and exit)
- ```
+```
 
 When `prebuild-install` is run via an `npm` script, options
 `--build-from-source`, `--debug` and `--download`, may be passed through via
