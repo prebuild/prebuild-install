@@ -42,7 +42,8 @@ module.exports = function (pkg) {
     path: '.',
     proxy: env.npm_config_proxy || env['HTTP_PROXY'],
     'https-proxy': env.npm_config_https_proxy || env['HTTPS_PROXY'],
-    'local-address': env.npm_config_local_address
+    'local-address': env.npm_config_local_address,
+    'tag-prefix': 'v'
   }, minimist(process.argv, {
     alias: {
       target: 't',

@@ -36,6 +36,7 @@ test('custom config and aliases', function (t) {
     t.equal(rc.libc, 'testlibc', 'libc family')
     t.equal(rc.abi, '50', 'correct ABI')
     t.equal(rc.token, 'TOKEN', 'correct token')
+    t.equal(rc['tag-prefix'], 'v', 'correct default tag prefix')
     t.end()
   })
 })
@@ -98,6 +99,14 @@ test('can pass in external package config to rc', function (t) {
 test('use default ABI', function (t) {
   runRc(t, '', {}, function (rc) {
     t.equal(rc.abi, process.versions.modules, 'correct default ABI')
+    t.end()
+  })
+})
+
+test('using --tag-prefix will set the tag prefix', function (t) {
+  var args = ['--tag-prefix @scoped/package@']
+  runRc(t, args.join(' '), {}, function (rc) {
+    t.equal(rc['tag-prefix'], '@scoped/package@', 'tag prefix should be set')
     t.end()
   })
 })

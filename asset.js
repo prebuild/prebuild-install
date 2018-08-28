@@ -28,7 +28,7 @@ function findAssetId (opts, cb) {
 
     // Find asset id in release
     for (var release of data) {
-      if (release.tag_name === 'v' + opts.pkg.version) {
+      if (release.tag_name === opts['tag-prefix'] + opts.pkg.version) {
         for (var asset of release.assets) {
           if (asset.browser_download_url === downloadUrl) {
             return cb(null, asset.id)

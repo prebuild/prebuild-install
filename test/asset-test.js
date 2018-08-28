@@ -128,6 +128,7 @@ function getOpts () {
     platform: process.platform,
     arch: process.arch,
     path: __dirname,
-    token: 'TOKEN'
+    token: 'TOKEN',
+    'tag-prefix': 'v'
   }
 }
