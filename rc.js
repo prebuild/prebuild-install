@@ -1,7 +1,7 @@
 var minimist = require('minimist')
 var getAbi = require('node-abi').getAbi
 var detectLibc = require('detect-libc')
-var napi = require('./napi')
+var napi = require('napi-build-utils')
 
 var env = process.env
 

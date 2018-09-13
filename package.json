@@ -25,6 +25,7 @@
     "github-from-package": "0.0.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "napi-build-utils": "^1.0.1",
     "node-abi": "^2.2.0",
     "noop-logger": "^0.1.1",
     "npmlog": "^4.0.1",
