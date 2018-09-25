@@ -223,6 +223,7 @@ function getOpts () {
     runtime: 'node',
     platform: process.platform,
     arch: process.arch,
-    path: __dirname
+    path: __dirname,
+    'tag-prefix': 'v'
   }
 }

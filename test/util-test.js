@@ -84,7 +84,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
   process.env[envProperty] = 'http://overriden-url.com/overriden-path'
   var t7 = util.urlTemplate(o7)
   delete process.env[envProperty]
-  t.equal(t7, 'http://overriden-url.com/overriden-path/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with host mirror override')
+  t.equal(t7, 'http://overriden-url.com/overriden-path/{tag_prefix}{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with host mirror override')
   var o8 = {
     pkg: Object.assign({}, require('../package.json'), {
       binary: {
@@ -99,10 +99,10 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
   process.env[envProperty] = 'http://overriden-url.com/overriden-path'
   var t8 = util.urlTemplate(o8)
   delete process.env[envProperty]
-  t.equal(t8, 'http://overriden-url.com/overriden-path/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with binary defined and host mirror override')
+  t.equal(t8, 'http://overriden-url.com/overriden-path/{tag_prefix}{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with binary defined and host mirror override')
   var o9 = {pkg: require('../package.json'), download: true}
   var t9 = util.urlTemplate(o9)
-  t.equal(t9, 'https://github.com/prebuild/prebuild-install/releases/download/v{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, no host mirror, default format')
+  t.equal(t9, 'https://github.com/prebuild/prebuild-install/releases/download/{tag_prefix}{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, no host mirror, default format')
   t.end()
 })
 

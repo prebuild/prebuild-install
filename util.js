@@ -22,7 +22,8 @@ function getDownloadUrl (opts) {
     arch: opts.arch,
     libc: opts.libc || process.env.LIBC || '',
     configuration: (opts.debug ? 'Debug' : 'Release'),
-    module_name: opts.pkg.binary && opts.pkg.binary.module_name
+    module_name: opts.pkg.binary && opts.pkg.binary.module_name,
+    tag_prefix: opts['tag-prefix'] || 'v'
   })
 }
 
@@ -43,7 +44,7 @@ function urlTemplate (opts) {
   var hostMirrorUrl = getHostMirrorUrl(opts)
 
   if (hostMirrorUrl) {
-    return hostMirrorUrl + '/v{version}/' + packageName
+    return hostMirrorUrl + '/{tag_prefix}{version}/' + packageName
   }
 
   if (opts.pkg.binary) {
@@ -56,7 +57,7 @@ function urlTemplate (opts) {
     }).filter(Boolean).join('/')
   }
 
-  return github(opts.pkg) + '/releases/download/v{version}/' + packageName
+  return github(opts.pkg) + '/releases/download/{tag_prefix}{version}/' + packageName
 }
 
 function getHostMirrorUrl (opts) {
