@@ -4,6 +4,7 @@ exports.noPrebuilts = function (opts) {
     '(target=' + opts.target,
     'runtime=' + opts.runtime,
     'arch=' + opts.arch,
+    'libc=' + opts.libc,
     'platform=' + opts.platform + ')'
   ].join(' '))
 }
