@@ -20,6 +20,12 @@ if (rc.version) {
 
 if (rc.path) process.chdir(rc.path)
 
+if (rc.runtime === 'electron' && rc.target[0] === '4' && rc.abi === '64') {
+  log.error(`Electron version ${rc.target} found - skipping prebuild-install work due to known ABI issue`)
+  log.error('More information about this issue can be found at https://github.com/lgeiger/node-abi/issues/54')
+  process.exit(1)
+}
+
 if (!fs.existsSync('package.json')) {
   log.error('setup', 'No package.json found. Aborting...')
   process.exit(1)
