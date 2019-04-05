@@ -39,7 +39,7 @@ module.exports = function (pkg) {
     force: false,
     verbose: false,
     prebuild: true,
-    compile: false,
+    compile: env.npm_config_build_from_source === 'true',
     path: '.',
     proxy: env.npm_config_proxy || env['HTTP_PROXY'],
     'https-proxy': env.npm_config_https_proxy || env['HTTPS_PROXY'],
