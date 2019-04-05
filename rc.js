@@ -30,7 +30,7 @@ if (env.npm_config_argv) {
 module.exports = function (pkg) {
   var pkgConf = pkg.config || {}
   var sourceBuild = env.npm_config_build_from_source
-  var buildFromSource = sourceBuild === pkg.name || (sourceBuild === true || sourceBuild === 'true')
+  var buildFromSource = sourceBuild === pkg.name || sourceBuild === 'true'
   var rc = require('rc')('prebuild-install', {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
     runtime: pkgConf.runtime || env.npm_config_runtime || 'node',
