@@ -68,7 +68,8 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     npm_config_local_address: 'LOCAL_ADDRESS',
     npm_config_target: '1.4.0',
     npm_config_runtime: 'electron',
-    npm_config_platform: 'PLATFORM'
+    npm_config_platform: 'PLATFORM',
+    npm_config_build_from_source: 'true'
   }
   runRc(t, '', env, function (rc) {
     t.equal(rc.proxy, 'PROXY', 'proxy is set')
@@ -77,6 +78,7 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     t.equal(rc.target, '1.4.0', 'target is set')
     t.equal(rc.runtime, 'electron', 'runtime is set')
     t.equal(rc.platform, 'PLATFORM', 'platform is set')
+    t.equal(rc.compile, true, 'build-from-source is set')
     t.end()
   })
 })
