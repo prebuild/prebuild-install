@@ -38,8 +38,8 @@ nock('https://api.github.com:443', {
   .reply(302, undefined, {
     Location: function (req, res, body) {
       var assetId = req.path
-          .replace('/repos/ralphtheninja/a-native-module/releases/assets/', '')
-          .replace('?access_token=TOKEN', '')
+        .replace('/repos/ralphtheninja/a-native-module/releases/assets/', '')
+        .replace('?access_token=TOKEN', '')
 
       for (var release of releases) {
         for (var asset of release.assets) {

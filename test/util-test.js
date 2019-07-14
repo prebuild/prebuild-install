@@ -39,28 +39,28 @@ test('tempFile() ends with pid and random number', function (t) {
 })
 
 test('urlTemplate() returns different templates based on pkg and rc', function (t) {
-  var o1 = {download: 'd0000d'}
+  var o1 = { download: 'd0000d' }
   var t1 = util.urlTemplate(o1)
   t.equal(t1, 'd0000d', 'template based on --download <string>')
   var o2 = {
-    pkg: {binary: {host: 'http://foo.com'}}
+    pkg: { binary: { host: 'http://foo.com' } }
   }
   var t2 = util.urlTemplate(o2)
   t.equal(t2, 'http://foo.com/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', 'template based on pkg.binary properties')
   var o3 = {
-    pkg: {binary: {host: 'http://foo.com'}},
+    pkg: { binary: { host: 'http://foo.com' } },
     download: true
   }
   var t3 = util.urlTemplate(o3)
   t.equal(t3, t2, 'pkg: {} takes precedence over --download')
   var o4 = {
-    pkg: {binary: {host: 'http://foo.com'}},
+    pkg: { binary: { host: 'http://foo.com' } },
     download: 'd0000d'
   }
   var t4 = util.urlTemplate(o4)
   t.equal(t4, t1, '--download <string> always goes first')
   var o5 = {
-    pkg: {binary: {host: 'http://foo.com', remote_path: 'w00t'}}
+    pkg: { binary: { host: 'http://foo.com', remote_path: 'w00t' } }
   }
   var t5 = util.urlTemplate(o5)
   t.equal(t5, 'http://foo.com/w00t/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', 'pkg.binary.remote_path is added after host, default format')
@@ -100,7 +100,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
   var t8 = util.urlTemplate(o8)
   delete process.env[envProperty]
   t.equal(t8, 'http://overriden-url.com/overriden-path/{tag_prefix}{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with binary defined and host mirror override')
-  var o9 = {pkg: require('../package.json'), download: true}
+  var o9 = { pkg: require('../package.json'), download: true }
   var t9 = util.urlTemplate(o9)
   t.equal(t9, 'https://github.com/prebuild/prebuild-install/releases/download/{tag_prefix}{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz', '--download with no arguments, no pkg.binary, no host mirror, default format')
   t.end()

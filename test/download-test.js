@@ -198,7 +198,7 @@ test('error during download should fail with no dangling temp file', function (t
 test('should fail if abi is system abi with invalid binary', function (t) {
   var opts = getOpts()
   opts.abi = process.versions.modules
-  opts.pkg.binary = {host: 'http://localhost:8890'}
+  opts.pkg.binary = { host: 'http://localhost:8890' }
 
   var server = http.createServer(function (req, res) {
     res.statusCode = 200
