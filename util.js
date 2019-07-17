@@ -1,6 +1,6 @@
 var path = require('path')
 var github = require('github-from-package')
-var home = require('os-homedir')
+var home = require('os').homedir
 var crypto = require('crypto')
 var expandTemplate = require('expand-template')()
 

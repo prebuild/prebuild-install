@@ -28,21 +28,20 @@
     "node-abi": "^2.7.0",
     "noop-logger": "^0.1.1",
     "npmlog": "^4.0.1",
-    "os-homedir": "^1.0.1",
-    "pump": "^2.0.1",
+    "pump": "^3.0.0",
     "rc": "^1.2.7",
-    "simple-get": "^2.7.0",
-    "tar-fs": "^1.13.0",
+    "simple-get": "^3.0.3",
+    "tar-fs": "^2.0.0",
     "tunnel-agent": "^0.6.0",
     "which-pm-runs": "^1.0.0"
   },
   "devDependencies": {
     "a-native-module": "^1.0.0",
-    "nock": "^9.2.5",
+    "nock": "^10.0.6",
     "rimraf": "^2.5.2",
     "standard": "^13.0.2",
     "tape": "^4.5.1",
-    "verify-travis-appveyor": "^2.0.1"
+    "verify-travis-appveyor": "^3.0.1"
   },
   "bin": "./bin.js",
   "repository": {

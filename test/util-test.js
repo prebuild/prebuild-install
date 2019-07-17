@@ -1,6 +1,6 @@
 var test = require('tape')
 var fs = require('fs')
-var home = require('os-homedir')
+var home = require('os').homedir
 var util = require('../util')
 var path = require('path')
 
