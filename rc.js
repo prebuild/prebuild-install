@@ -32,8 +32,8 @@ module.exports = function (pkg) {
   var sourceBuild = env.npm_config_build_from_source
   var buildFromSource = sourceBuild === pkg.name || sourceBuild === 'true'
   var rc = require('rc')('prebuild-install', {
-    target: pkgConf.target || env.npm_config_target || process.versions.node,
-    runtime: pkgConf.runtime || env.npm_config_runtime || 'node',
+    target: pkgConf.target || env.npm_config_target || process.versions.electron || process.versions.node,
+    runtime: pkgConf.runtime || env.npm_config_runtime || (process.versions.electron ? 'electron' : 'node'),
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
     libc: libc,
     platform: env.npm_config_platform || process.platform,
