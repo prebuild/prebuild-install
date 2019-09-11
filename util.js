@@ -61,7 +61,7 @@ function urlTemplate (opts) {
 }
 
 function getHostMirrorUrl (opts) {
-  var propName = 'npm_config_' + (opts.pkg.name || '').replace(/-/g, '_') + '_binary_host'
+  var propName = 'npm_config_' + (opts.pkg.name || '').replace(/[^a-zA-Z0-9]/g, '_') + '_binary_host'
   return process.env[propName] || process.env[propName + '_mirror']
 }
 
