@@ -48,7 +48,8 @@ test('npm args are passed on from npm environment into rc', function (t) {
         '--build-from-source',
         '--download',
         'https://foo.bar',
-        '--debug'
+        '--debug',
+        '--verbose'
       ]
     })
   }
@@ -56,6 +57,7 @@ test('npm args are passed on from npm environment into rc', function (t) {
     t.equal(rc['build-from-source'], true, '--build-from-source works')
     t.equal(rc.compile, true, 'compile should be true')
     t.equal(rc.debug, true, 'debug should be true')
+    t.equal(rc.verbose, true, 'verbose should be true')
     t.equal(rc.download, 'https://foo.bar', 'download is set')
     t.end()
   })
