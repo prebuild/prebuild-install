@@ -43,7 +43,7 @@ function downloadPrebuild (downloadUrl, opts, cb) {
         if (err) return onerror(err)
         log.http(res.statusCode, downloadUrl)
         if (res.statusCode !== 200) return onerror()
-        mkdirp(util.prebuildCache(), function () {
+        mkdirp(util.prebuildCache()).then(function () {
           log.info('downloading to @', tempFile)
           pump(res, fs.createWriteStream(tempFile), function (err) {
             if (err) return onerror(err)
@@ -122,7 +122,7 @@ function downloadPrebuild (downloadUrl, opts, cb) {
 
     function makeNpmCacheDir () {
       log.info('npm cache directory missing, creating it...')
-      mkdirp(cacheFolder, cb)
+      mkdirp(cacheFolder).then(cb)
     }
   }
 }
