@@ -22,7 +22,7 @@
     "detect-libc": "^1.0.3",
     "expand-template": "^2.0.3",
     "github-from-package": "0.0.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "mkdirp": "^0.5.1",
     "napi-build-utils": "^1.0.1",
     "node-abi": "^2.7.0",
