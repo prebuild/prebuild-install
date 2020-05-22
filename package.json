@@ -3,7 +3,7 @@
   "version": "5.3.4",
   "description": "A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform",
   "scripts": {
-    "test": "verify-travis-appveyor && tape test/*-test.js && npm run lint",
+    "test": "tape test/*-test.js && npm run lint",
     "lint": "standard"
   },
   "keywords": [
@@ -40,8 +40,7 @@
     "nock": "^10.0.6",
     "rimraf": "^2.5.2",
     "standard": "^13.0.2",
-    "tape": "^4.5.1",
-    "verify-travis-appveyor": "^3.0.1"
+    "tape": "^4.5.1"
   },
   "bin": "./bin.js",
   "repository": {

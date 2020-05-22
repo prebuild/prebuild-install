@@ -129,7 +129,7 @@ test('existing host but invalid url should fail', function (t) {
   var cachedPrebuild = util.cachedPrebuild(downloadUrl)
 
   var server = http.createServer(function (req, res) {
-    t.equal(req.url, '/prebuilds/woohooo-' + process.versions.modules, 'correct url')
+    t.equal(req.url, '/prebuilds/woohooo-' + opts.abi, 'correct url')
     res.statusCode = 404
     res.end()
   }).listen(8888, function () {
@@ -180,7 +180,7 @@ test('error during download should fail with no dangling temp file', function (t
   }
 
   var server = http.createServer(function (req, res) {
-    t.equal(req.url, '/prebuilds/woohooo-' + process.versions.modules, 'correct url')
+    t.equal(req.url, '/prebuilds/woohooo-' + opts.abi, 'correct url')
     res.statusCode = 200
     res.write('yep') // simulates hanging request
   }).listen(8889, function () {
@@ -221,6 +221,7 @@ function getOpts () {
   return {
     pkg: require('a-native-module/package'),
     runtime: 'node',
+    abi: 64,
     platform: process.platform,
     arch: process.arch,
     path: __dirname,

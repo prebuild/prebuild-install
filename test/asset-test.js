@@ -125,6 +125,7 @@ function getOpts () {
   return {
     pkg: require('a-native-module/package'),
     runtime: 'node',
+    abi: 64,
     platform: process.platform,
     arch: process.arch,
     path: __dirname,
