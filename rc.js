@@ -43,8 +43,8 @@ module.exports = function (pkg) {
     prebuild: true,
     compile: buildFromSource,
     path: '.',
-    proxy: env.npm_config_proxy || env['HTTP_PROXY'],
-    'https-proxy': env.npm_config_https_proxy || env['HTTPS_PROXY'],
+    proxy: env.npm_config_proxy || env['http_proxy'] || env['HTTP_PROXY'],
+    'https-proxy': env.npm_config_https_proxy || env['https_proxy'] || env['HTTPS_PROXY'],
     'local-address': env.npm_config_local_address,
     'tag-prefix': 'v'
   }, minimist(process.argv, {
