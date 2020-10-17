@@ -51,10 +51,7 @@ if (!isNpm && /node_modules/.test(process.cwd())) {
 } else if (opts.force) {
   log.warn('install', 'prebuilt binaries enforced with --force!')
   log.warn('install', 'prebuilt binaries may be out of date!')
-} else if (typeof origin !== 'string') {
-  log.info('install', 'installing standalone, skipping download.')
-  process.exit(1)
-} else if (origin.length > 4 && origin.substr(0, 4) === 'git+') {
+} else if (origin && origin.length > 4 && origin.substr(0, 4) === 'git+') {
   log.info('install', 'installing from git repository, skipping download.')
   process.exit(1)
 } else if (opts.compile === true || opts.prebuild === false) {
