@@ -88,15 +88,20 @@ function tempFile (cached) {
 }
 
 function packageOrigin (env, pkg) {
+  // npm <= 6: metadata is stored on disk in node_modules
+  if (pkg._from) {
+    return pkg._from
+  }
+
+  // npm 7: metadata is exposed to environment by arborist
   if (env.npm_package_from) {
-    // npm 7: metadata is exposed to environment by arborist
-    // TODO: seems undefined atm (npm 7.0.2)
+    // NOTE: seems undefined atm (npm 7.0.2)
     return env.npm_package_from
   }
 
-  if (pkg._from) {
-    // npm <= 6: metadata is stored on disk in node_modules
-    return pkg._from
+  if (env.npm_package_resolved) {
+    // NOTE: not sure about the difference with _from, but it's all we have
+    return env.npm_package_resolved
   }
 }
 
