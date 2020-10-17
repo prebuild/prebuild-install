@@ -40,7 +40,8 @@
     "nock": "^10.0.6",
     "rimraf": "^2.5.2",
     "standard": "^13.0.2",
-    "tape": "^4.5.1"
+    "tape": "^4.5.1",
+    "tempy": "0.2.1"
   },
   "bin": "./bin.js",
   "repository": {

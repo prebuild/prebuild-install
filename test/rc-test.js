@@ -1,6 +1,8 @@
 var test = require('tape')
 var path = require('path')
 var exec = require('child_process').exec
+var fs = require('fs')
+var tempy = require('tempy') // Locked to 0.2.1 for node 6 support
 
 test('custom config and aliases', function (t) {
   var args = [
@@ -41,19 +43,17 @@ test('custom config and aliases', function (t) {
   })
 })
 
+// TODO: merge into above test
 test('npm args are passed on from npm environment into rc', function (t) {
-  var env = {
-    npm_config_argv: JSON.stringify({
-      cooked: [
-        '--build-from-source',
-        '--download',
-        'https://foo.bar',
-        '--debug',
-        '--verbose'
-      ]
-    })
-  }
-  runRc(t, '', env, function (rc) {
+  var args = [
+    '--build-from-source',
+    '--download',
+    'https://foo.bar',
+    '--debug',
+    '--verbose'
+  ].join(' ')
+
+  runRc(t, args, {}, function (rc) {
     t.equal(rc['build-from-source'], true, '--build-from-source works')
     t.equal(rc.compile, true, 'compile should be true')
     t.equal(rc.debug, true, 'debug should be true')
@@ -63,20 +63,28 @@ test('npm args are passed on from npm environment into rc', function (t) {
   })
 })
 
+test('negative npm args are passed on from npm environment into rc', function (t) {
+  runRc(t, '--no-prebuild', {}, function (rc) {
+    t.equal(rc.prebuild, false, 'prebuild is false')
+    t.end()
+  })
+})
+
 test('npm_config_* are passed on from environment into rc', function (t) {
   var env = {
-    npm_config_proxy: 'PROXY',
-    npm_config_https_proxy: 'HTTPS_PROXY',
-    npm_config_local_address: 'LOCAL_ADDRESS',
+    // Note that these are validated by npm
+    npm_config_proxy: 'http://localhost/',
+    npm_config_https_proxy: 'https://localhost/',
+    npm_config_local_address: '127.0.0.1',
     npm_config_target: '1.4.0',
     npm_config_runtime: 'electron',
     npm_config_platform: 'PLATFORM',
     npm_config_build_from_source: 'true'
   }
   runRc(t, '', env, function (rc) {
-    t.equal(rc.proxy, 'PROXY', 'proxy is set')
-    t.equal(rc['https-proxy'], 'HTTPS_PROXY', 'https-proxy is set')
-    t.equal(rc['local-address'], 'LOCAL_ADDRESS', 'local-address is set')
+    t.equal(rc.proxy, 'http://localhost/', 'proxy is set')
+    t.equal(rc['https-proxy'], 'https://localhost/', 'https-proxy is set')
+    t.equal(rc['local-address'], '127.0.0.1', 'local-address is set')
     t.equal(rc.target, '1.4.0', 'target is set')
     t.equal(rc.runtime, 'electron', 'runtime is set')
     t.equal(rc.platform, 'PLATFORM', 'platform is set')
@@ -116,18 +124,34 @@ test('using --tag-prefix will set the tag prefix', function (t) {
 })
 
 function runRc (t, args, env, cb) {
-  var cmd = 'node ' + path.resolve(__dirname, '..', 'rc.js') + ' ' + args
-  env = Object.assign({}, process.env, env)
-  exec(cmd, { env: env }, function (err, stdout, stderr) {
-    t.error(err, 'no error')
-    t.equal(stderr.length, 0, 'no stderr')
-    var result
-    try {
-      result = JSON.parse(stdout.toString())
-      t.pass('json parsed correctly')
-    } catch (e) {
-      t.fail(e.message)
+  var pkg = {
+    name: 'test',
+    private: true,
+    scripts: {
+      install: 'node ' + path.resolve(__dirname, '..', 'rc.js') + ' ' + args
     }
-    cb(result)
+  }
+
+  var tmp = tempy.directory()
+  var json = JSON.stringify(pkg)
+
+  fs.writeFile(path.join(tmp, 'package.json'), json, function (err) {
+    if (err) throw err
+
+    var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+    var cmd = npm + ' run --silent install'
+
+    exec(cmd, { env: env, cwd: tmp }, function (err, stdout, stderr) {
+      t.error(err, 'no error')
+      t.equal(stderr.toString().trim(), '', 'no stderr')
+
+      try {
+        var result = JSON.parse(stdout.toString())
+      } catch (e) {
+        return t.fail(e)
+      }
+
+      cb(result)
+    })
   })
 }
