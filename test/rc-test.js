@@ -3,6 +3,7 @@ var path = require('path')
 var exec = require('child_process').exec
 var fs = require('fs')
 var tempy = require('tempy') // Locked to 0.2.1 for node 6 support
+var cleanEnv = require('./util/clean-env')
 
 test('custom config and aliases', function (t) {
   var args = [
@@ -141,7 +142,9 @@ function runRc (t, args, env, cb) {
     var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
     var cmd = npm + ' run --silent install'
 
-    exec(cmd, { env: env, cwd: tmp }, function (err, stdout, stderr) {
+    env = Object.assign(cleanEnv(process.env), env)
+
+    exec(cmd, { env, cwd: tmp }, function (err, stdout, stderr) {
       t.error(err, 'no error')
       t.equal(stderr.toString().trim(), '', 'no stderr')
 
