@@ -55,11 +55,11 @@ test('npm args are passed on from npm environment into rc', function (t) {
   ].join(' ')
 
   runRc(t, args, {}, function (rc) {
-    t.equal(rc['build-from-source'], true, '--build-from-source works')
     t.equal(rc.compile, true, 'compile should be true')
     t.equal(rc.debug, true, 'debug should be true')
     t.equal(rc.verbose, true, 'verbose should be true')
     t.equal(rc.download, 'https://foo.bar', 'download is set')
+    t.equal(rc.prebuild, true, 'prebuild is true')
     t.end()
   })
 })
@@ -140,16 +140,16 @@ function runRc (t, args, env, cb) {
     if (err) throw err
 
     var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-    var cmd = npm + ' run --silent install'
+    var cmd = npm + ' run install'
 
     env = Object.assign(cleanEnv(process.env), env)
 
     exec(cmd, { env, cwd: tmp }, function (err, stdout, stderr) {
       t.error(err, 'no error')
-      t.equal(stderr.toString().trim(), '', 'no stderr')
+      t.equal(stderr.trim(), '', 'no stderr')
 
       try {
-        var result = JSON.parse(stdout.toString())
+        var result = JSON.parse(stdout.slice(stdout.indexOf('{')))
       } catch (e) {
         return t.fail(e)
       }
