@@ -87,6 +87,19 @@ function tempFile (cached) {
   return cached + '.' + process.pid + '-' + Math.random().toString(16).slice(2) + '.tmp'
 }
 
+function packageOrigin (env, pkg) {
+  if (env.npm_package_from) {
+    // npm 7: metadata is exposed to environment by arborist
+    // TODO: seems undefined atm (npm 7.0.2)
+    return env.npm_package_from
+  }
+
+  if (pkg._from) {
+    // npm <= 6: metadata is stored on disk in node_modules
+    return pkg._from
+  }
+}
+
 exports.getDownloadUrl = getDownloadUrl
 exports.getApiUrl = getApiUrl
 exports.getAssetUrl = getAssetUrl
@@ -95,3 +108,4 @@ exports.cachedPrebuild = cachedPrebuild
 exports.prebuildCache = prebuildCache
 exports.npmCache = npmCache
 exports.tempFile = tempFile
+exports.packageOrigin = packageOrigin
