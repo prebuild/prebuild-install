@@ -4,7 +4,8 @@
   "description": "A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform",
   "scripts": {
     "test": "tape test/*-test.js && npm run lint",
-    "lint": "standard && hallmark"
+    "lint": "standard && hallmark",
+    "hallmark": "hallmark --fix"
   },
   "keywords": [
     "prebuilt",
