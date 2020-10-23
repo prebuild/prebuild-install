@@ -49,7 +49,7 @@ prebuild-install [options]
 
 When `prebuild-install` is run via an `npm` script, options
 `--build-from-source`, `--debug`, `--download`, `--target`, `--runtime`, `--arch` and `--platform` may be passed through via
-arguments given to the `npm` command. Alternatively you can set environment variables `npm_config_platform`, `npm_config_arch`, `npm_config_target` and `npm_config_runtime`.
+arguments given to the `npm` command. Alternatively you can set environment variables `npm_config_build_from_source=true`, `npm_config_platform`, `npm_config_arch`, `npm_config_target` and `npm_config_runtime`.
 
 ### Private Repositories
 

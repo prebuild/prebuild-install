@@ -55,18 +55,10 @@ test('npm args are passed on from npm environment into rc', function (t) {
   ].join(' ')
 
   runRc(t, args, {}, function (rc) {
-    t.equal(rc.compile, true, 'compile should be true')
+    t.equal(rc.buildFromSource, true, 'buildFromSource should be true')
     t.equal(rc.debug, true, 'debug should be true')
     t.equal(rc.verbose, true, 'verbose should be true')
     t.equal(rc.download, 'https://foo.bar', 'download is set')
-    t.equal(rc.prebuild, true, 'prebuild is true')
-    t.end()
-  })
-})
-
-test('negative npm args are passed on from npm environment into rc', function (t) {
-  runRc(t, '--no-prebuild', {}, function (rc) {
-    t.equal(rc.prebuild, false, 'prebuild is false')
     t.end()
   })
 })
@@ -89,7 +81,7 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     t.equal(rc.target, '1.4.0', 'target is set')
     t.equal(rc.runtime, 'electron', 'runtime is set')
     t.equal(rc.platform, 'PLATFORM', 'platform is set')
-    t.equal(rc.compile, true, 'build-from-source is set')
+    t.equal(rc.buildFromSource, true, 'build-from-source is set')
     t.end()
   })
 })

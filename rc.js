@@ -9,9 +9,7 @@ var libc = env.LIBC || (detectLibc.isNonGlibcLinux && detectLibc.family) || ''
 // Get the configuration
 module.exports = function (pkg) {
   var pkgConf = pkg.config || {}
-
-  // TODO: remove compile and prebuild aliases?
-  var buildFromSource = env.npm_config_build_from_source || env.npm_config_compile
+  var buildFromSource = env.npm_config_build_from_source
 
   var rc = require('rc')('prebuild-install', {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
@@ -22,8 +20,7 @@ module.exports = function (pkg) {
     debug: env.npm_config_debug === 'true',
     force: false,
     verbose: env.npm_config_verbose === 'true',
-    prebuild: env.npm_config_prebuild !== '',
-    compile: buildFromSource === pkg.name || buildFromSource === 'true',
+    buildFromSource: buildFromSource === pkg.name || buildFromSource === 'true',
     path: '.',
     proxy: env.npm_config_proxy || env['http_proxy'] || env['HTTP_PROXY'],
     'https-proxy': env.npm_config_https_proxy || env['https_proxy'] || env['HTTPS_PROXY'],
@@ -39,8 +36,7 @@ module.exports = function (pkg) {
       path: 'p',
       version: 'v',
       download: 'd',
-      'build-from-source': 'compile',
-      compile: 'c',
+      buildFromSource: 'build-from-source',
       token: 'T'
     }
   }))

@@ -54,7 +54,7 @@ if (!isNpm && /node_modules/.test(process.cwd())) {
 } else if (origin && origin.length > 4 && origin.substr(0, 4) === 'git+') {
   log.info('install', 'installing from git repository, skipping download.')
   process.exit(1)
-} else if (opts.compile === true || opts.prebuild === false) {
+} else if (opts.buildFromSource) {
   log.info('install', '--build-from-source specified, not attempting download.')
   process.exit(1)
 }
