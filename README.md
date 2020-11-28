@@ -13,7 +13,9 @@
 
 ## Usage
 
-Change your package.json install script to:
+1) add prebuild-install to the dependencies of your package
+
+2) Add this install script to your package.json:
 
 ```json
 {
@@ -22,6 +24,13 @@ Change your package.json install script to:
   }
 }
 ```
+Modify the above script to pass more options to prebuild-install. 
+
+For example, if using N-API, use the following:
+```
+prebuild-install --runtime=napi || node-gyp rebuild
+```
+
 
 ### Requirements
 
