@@ -97,6 +97,20 @@ So if you are installing `leveldown@1.2.3` the resulting url will be:
 http://overriden-host.com/overriden-path/v1.2.3/leveldown-v1.2.3-node-v57-win32-x64.tar.gz
 ```
 
+#### Local prebuilds
+
+If you want to use prebuilds from your local filesystem, you can use the `% your package name %_local_prebuilds` .npmrc variable to set a path to the folder containing prebuilds. For example:
+
+```
+leveldown_local_prebuilds=/path/to/prebuilds
+```
+
+This option will look directly in that folder for bundles created with `prebuild`, for example:
+
+```
+/path/to/prebuilds/leveldown-v1.2.3-node-v57-win32-x64.tar.gz
+```
+
 ### Cache
 
 All prebuilt binaries are cached to minimize traffic. So first `prebuild-install` picks binaries from the cache and if no binary could be found, it will be downloaded. Depending on the environment, the cache folder is determined in the following order:

@@ -15,7 +15,7 @@ var mkdirp = require('mkdirp-classic')
 
 function downloadPrebuild (downloadUrl, opts, cb) {
   var cachedPrebuild = util.cachedPrebuild(downloadUrl)
-  var localPrebuild = util.localPrebuild(downloadUrl)
+  var localPrebuild = util.localPrebuild(downloadUrl, opts)
   var tempFile = util.tempFile(cachedPrebuild)
   var log = opts.log || noop
 

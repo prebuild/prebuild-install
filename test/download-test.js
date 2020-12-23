@@ -89,6 +89,41 @@ test('cached prebuild', function (t) {
   })
 })
 
+test('local prebuild', function (t) {
+  t.plan(6)
+  rm.sync(build)
+
+  var opts = getOpts()
+  var downloadUrl = util.getDownloadUrl(opts)
+  var cachedPrebuild = util.cachedPrebuild(downloadUrl)
+  var localPrebuild = util.localPrebuild(downloadUrl, opts)
+
+  t.ok(fs.existsSync(cachedPrebuild), 'cached prebuild exists')
+  fs.copyFileSync(cachedPrebuild, localPrebuild)
+
+  var _createWriteStream = fs.createWriteStream
+  fs.createWriteStream = function (path) {
+    t.ok(/\.node$/i.test(path), 'this is the unpacked file')
+    return _createWriteStream(path)
+  }
+
+  var _createReadStream = fs.createReadStream
+  fs.createReadStream = function (path) {
+    t.equal(path, localPrebuild, 'createReadStream called for localPrebuild')
+    return _createReadStream(path)
+  }
+
+  t.equal(fs.existsSync(build), false, 'no build folder')
+
+  download(downloadUrl, opts, function (err) {
+    t.error(err, 'no error')
+    t.equal(fs.existsSync(unpacked), true, unpacked + ' should exist')
+    fs.createReadStream = _createReadStream
+    fs.createWriteStream = _createWriteStream
+    rm.sync(localPrebuild)
+  })
+})
+
 test('non existing host should fail with no dangling temp file', function (t) {
   t.plan(3)
 
@@ -225,6 +260,7 @@ function getOpts () {
     platform: process.platform,
     arch: process.arch,
     path: __dirname,
-    'tag-prefix': 'v'
+    'tag-prefix': 'v',
+    'local-prebuilds': __dirname
   }
 }

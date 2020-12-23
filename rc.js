@@ -25,6 +25,7 @@ module.exports = function (pkg) {
     proxy: env.npm_config_proxy || env['http_proxy'] || env['HTTP_PROXY'],
     'https-proxy': env.npm_config_https_proxy || env['https_proxy'] || env['HTTPS_PROXY'],
     'local-address': env.npm_config_local_address,
+    'local-prebuilds': 'prebuilds',
     'tag-prefix': 'v',
     download: env.npm_config_download
   }, minimist(process.argv, {

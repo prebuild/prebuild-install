@@ -105,8 +105,10 @@ function packageOrigin (env, pkg) {
   }
 }
 
-function localPrebuild (url) {
-  return path.join('prebuilds', path.basename(url))
+function localPrebuild (url, opts) {
+  var propName = 'npm_config_' + (opts.pkg.name || '').replace(/[^a-zA-Z0-9]/g, '_') + '_local_prebuilds'
+  var prefix = process.env[propName] || opts['local-prebuilds'] || 'prebuilds'
+  return path.join(prefix, path.basename(url))
 }
 
 exports.getDownloadUrl = getDownloadUrl
