@@ -99,7 +99,10 @@ test('local prebuild', function (t) {
   var localPrebuild = util.localPrebuild(downloadUrl, opts)
 
   t.ok(fs.existsSync(cachedPrebuild), 'cached prebuild exists')
-  fs.copyFileSync(cachedPrebuild, localPrebuild)
+
+  // fs.copyFileSync() not available before Node 8.5
+  var data = fs.readFileSync(cachedPrebuild);
+  fs.writeFileSync(localPrebuild, data);
 
   var _createWriteStream = fs.createWriteStream
   fs.createWriteStream = function (path) {

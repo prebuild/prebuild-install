@@ -5,7 +5,7 @@ var util = require('../util')
 var path = require('path')
 
 test('prebuildCache() for different environments', function (t) {
-  var NPMCACHE = process.env.npm_config_cache || ''
+  var NPMCACHE = process.env.npm_config_cache
   delete process.env.npm_config_cache
   var APPDATA = process.env.APPDATA = 'somepathhere'
   t.equal(util.prebuildCache(), path.join(APPDATA, '/npm-cache/_prebuilds'), 'APPDATA set')
