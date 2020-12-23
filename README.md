@@ -97,7 +97,6 @@ So if you are installing `leveldown@1.2.3` the resulting url will be:
 http://overriden-host.com/overriden-path/v1.2.3/leveldown-v1.2.3-node-v57-win32-x64.tar.gz
 ```
 
-Non-absolute paths resolve relative to the directory of the package invoking prebuild-install, e.g. for nested dependencies.
 
 #### Local prebuilds
 
@@ -112,6 +111,8 @@ This option will look directly in that folder for bundles created with `prebuild
 ```
 /path/to/prebuilds/leveldown-v1.2.3-node-v57-win32-x64.tar.gz
 ```
+
+Non-absolute paths resolve relative to the directory of the package invoking prebuild-install, e.g. for nested dependencies.
 
 ### Cache
 
