@@ -105,11 +105,16 @@ function packageOrigin (env, pkg) {
   }
 }
 
+function localPrebuild (url) {
+  return path.join('prebuilds', path.basename(url))
+}
+
 exports.getDownloadUrl = getDownloadUrl
 exports.getApiUrl = getApiUrl
 exports.getAssetUrl = getAssetUrl
 exports.urlTemplate = urlTemplate
 exports.cachedPrebuild = cachedPrebuild
+exports.localPrebuild = localPrebuild
 exports.prebuildCache = prebuildCache
 exports.npmCache = npmCache
 exports.tempFile = tempFile
