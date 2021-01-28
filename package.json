@@ -33,8 +33,7 @@
     "rc": "^1.2.7",
     "simple-get": "^3.0.3",
     "tar-fs": "^2.0.0",
-    "tunnel-agent": "^0.6.0",
-    "which-pm-runs": "^1.0.0"
+    "tunnel-agent": "^0.6.0"
   },
   "devDependencies": {
     "a-native-module": "^1.0.0",
