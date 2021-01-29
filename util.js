@@ -60,8 +60,12 @@ function urlTemplate (opts) {
   return github(opts.pkg) + '/releases/download/{tag_prefix}{version}/' + packageName
 }
 
+function getEnvPrefix (pkgName) {
+  return 'npm_config_' + (pkgName || '').replace(/[^a-zA-Z0-9]/g, '_')
+}
+
 function getHostMirrorUrl (opts) {
-  var propName = 'npm_config_' + (opts.pkg.name || '').replace(/[^a-zA-Z0-9]/g, '_') + '_binary_host'
+  var propName = getEnvPrefix(opts.pkg.name) + '_binary_host'
   return process.env[propName] || process.env[propName + '_mirror']
 }
 
@@ -106,7 +110,7 @@ function packageOrigin (env, pkg) {
 }
 
 function localPrebuild (url, opts) {
-  var propName = 'npm_config_' + (opts.pkg.name || '').replace(/[^a-zA-Z0-9]/g, '_') + '_local_prebuilds'
+  var propName = getEnvPrefix(opts.pkg.name) + '_local_prebuilds'
   var prefix = process.env[propName] || opts['local-prebuilds'] || 'prebuilds'
   return path.join(prefix, path.basename(url))
 }
