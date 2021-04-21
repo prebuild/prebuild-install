@@ -188,6 +188,22 @@ test('getDownloadUrl() expands template to correct values', function (t) {
   }
   var url3 = util.getDownloadUrl(o3)
   t.equal(url3, url2, 'scope does not matter for download url')
+  var o4 = {
+    pkg: {
+      name: '@scope-with.special~chars_/a-native-module',
+      version: 'x.y.z+beta77',
+      binary: {
+        host: 'https://foo.com',
+        module_name: 'a-native-module-bindings',
+        package_name: '{name}-{package_name}-{version}-{major}-{minor}-{patch}-{build}-{abi}-{node_abi}-{platform}-{arch}-{configuration}-{module_name}'
+      }
+    },
+    platform: 'coolplatform',
+    arch: 'futureplatform',
+    debug: true
+  }
+  var url4 = util.getDownloadUrl(o4)
+  t.equal(url4, url2, 'scope with special characters does not matter for download url')
   t.end()
 })
 
