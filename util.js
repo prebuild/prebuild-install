@@ -5,7 +5,7 @@ var crypto = require('crypto')
 var expandTemplate = require('expand-template')()
 
 function getDownloadUrl (opts) {
-  var pkgName = opts.pkg.name.replace(/^@\w+\//, '')
+  var pkgName = opts.pkg.name.replace(/^@[a-zA-Z0-9_\-.~]+\//, '')
   return expandTemplate(urlTemplate(opts), {
     name: pkgName,
     package_name: pkgName,
