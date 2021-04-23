@@ -4,8 +4,7 @@
 
 [![npm](https://img.shields.io/npm/v/prebuild-install.svg)](https://www.npmjs.com/package/prebuild-install)
 ![Node version](https://img.shields.io/node/v/prebuild-install.svg)
-[![Build Status](https://travis-ci.org/prebuild/prebuild-install.svg?branch=master)](https://travis-ci.org/prebuild/prebuild-install)
-[![Build status](https://ci.appveyor.com/api/projects/status/6v6hxxwgjrr99pc8/branch/master?svg=true)](https://ci.appveyor.com/project/mathiask88/prebuild-install)
+[![Test](https://github.com/prebuild/prebuild-install/actions/workflows/test.yml/badge.svg)](https://github.com/prebuild/prebuild-install/actions/workflows/test.yml)
 [![david](https://david-dm.org/prebuild/prebuild-install.svg)](https://david-dm.org/prebuild/prebuild-install)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 

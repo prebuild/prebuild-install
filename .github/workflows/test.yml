@@ -1,0 +1,29 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [6, 8, 10, 12, 14, 16]
+        arch: [x64]
+        include:
+          - os: windows-latest
+            node: 14
+            arch: x86
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.arch }}
+      - name: Install
+        run: npm install
+      # Temporary to check that we have npm 7 in the matrix
+      - run: npm --version
+      - name: Test
+        run: npm test
