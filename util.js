@@ -61,7 +61,7 @@ function urlTemplate (opts) {
 }
 
 function getEnvPrefix (pkgName) {
-  return 'npm_config_' + (pkgName || '').replace(/[^a-zA-Z0-9]/g, '_')
+  return 'npm_config_' + (pkgName || '').replace(/[^a-zA-Z0-9]/g, '_').replace(/^_/, '')
 }
 
 function getHostMirrorUrl (opts) {
