@@ -115,6 +115,21 @@ function localPrebuild (url, opts) {
   return path.join(prefix, path.basename(url))
 }
 
+var noopLogger = {
+  http: function () {},
+  silly: function () {},
+  debug: function () {},
+  info: function () {},
+  warn: function () {},
+  error: function () {},
+  critical: function () {},
+  alert: function () {},
+  emergency: function () {},
+  notice: function () {},
+  verbose: function () {},
+  fatal: function () {}
+}
+
 exports.getDownloadUrl = getDownloadUrl
 exports.getApiUrl = getApiUrl
 exports.getAssetUrl = getAssetUrl
@@ -125,3 +140,4 @@ exports.prebuildCache = prebuildCache
 exports.npmCache = npmCache
 exports.tempFile = tempFile
 exports.packageOrigin = packageOrigin
+exports.noopLogger = noopLogger
