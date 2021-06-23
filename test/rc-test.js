@@ -31,7 +31,6 @@ test('custom config and aliases', function (t) {
     t.equal(rc.help, true, 'help is set')
     t.equal(rc.help, rc.h, 'help alias')
     t.equal(rc.path, path.resolve(tmp, '../some/other/path'), 'correct path')
-    t.equal(rc.path, path.resolve(tmp, rc.p), 'path alias')
     t.equal(rc.target, '1.4.10', 'correct target')
     t.equal(rc.target, rc.t, 'target alias')
     t.equal(rc.runtime, 'electron', 'correct runtime')
