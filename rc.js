@@ -1,3 +1,4 @@
+var path = require('path')
 var minimist = require('minimist')
 var getAbi = require('node-abi').getAbi
 var detectLibc = require('detect-libc')
@@ -42,9 +43,7 @@ module.exports = function (pkg) {
     }
   }))
 
-  if (rc.path === true) {
-    delete rc.path
-  }
+  rc.path = path.resolve(rc.path === true ? '.' : rc.path || '.')
 
   if (napi.isNapiRuntime(rc.runtime) && rc.target === process.versions.node) {
     rc.target = napi.getBestNapiBuildVersion()
