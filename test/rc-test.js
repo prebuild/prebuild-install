@@ -19,7 +19,7 @@ test('custom config and aliases', function (t) {
     '--libc testlibc',
     '--token TOKEN'
   ]
-  runRc(t, args.join(' '), {}, function (rc) {
+  runRc(t, args.join(' '), {}, function (rc, tmp) {
     t.equal(rc.arch, 'ARCH', 'correct arch')
     t.equal(rc.arch, rc.a, 'arch alias')
     t.equal(rc.platform, 'PLATFORM', 'correct platform')
@@ -30,8 +30,8 @@ test('custom config and aliases', function (t) {
     t.equal(rc.version, rc.v, 'version alias')
     t.equal(rc.help, true, 'help is set')
     t.equal(rc.help, rc.h, 'help alias')
-    t.equal(rc.path, '../some/other/path', 'correct path')
-    t.equal(rc.path, rc.p, 'path alias')
+    t.equal(rc.path, path.resolve(tmp, '../some/other/path'), 'correct path')
+    t.equal(rc.path, path.resolve(tmp, rc.p), 'path alias')
     t.equal(rc.target, '1.4.10', 'correct target')
     t.equal(rc.target, rc.t, 'target alias')
     t.equal(rc.runtime, 'electron', 'correct runtime')
@@ -146,7 +146,7 @@ function runRc (t, args, env, cb) {
         return t.fail(e)
       }
 
-      cb(result)
+      cb(result, tmp)
     })
   })
 }
