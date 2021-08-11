@@ -33,13 +33,12 @@ nock('https://api.github.com:443', {
 })
   .persist()
   .get(function (uri) {
-    return /\/repos\/ralphtheninja\/a-native-module\/releases\/assets\/\d*\?access_token=TOKEN/g.test(uri)
+    return /\/repos\/ralphtheninja\/a-native-module\/releases\/assets\/\d*/g.test(uri)
   })
   .reply(302, undefined, {
     Location: function (req, res, body) {
       var assetId = req.path
         .replace('/repos/ralphtheninja/a-native-module/releases/assets/', '')
-        .replace('?access_token=TOKEN', '')
 
       for (var release of releases) {
         for (var asset of release.assets) {
@@ -85,7 +84,7 @@ test('downloading from GitHub with token', function (t) {
     var _request = https.request
     https.request = function (req) {
       https.request = _request
-      t.equal('https://' + req.hostname + req.path, downloadUrl + '?access_token=' + opts.token, 'correct url')
+      t.equal('https://' + req.hostname + req.path, downloadUrl, 'correct url')
       return _request.apply(https, arguments)
     }
 
