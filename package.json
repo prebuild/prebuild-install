@@ -64,6 +64,6 @@
   },
   "homepage": "https://github.com/prebuild/prebuild-install",
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   }
 }
