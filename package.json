@@ -19,7 +19,7 @@
     "napi"
   ],
   "dependencies": {
-    "detect-libc": "^1.0.3",
+    "detect-libc": "^2.0.0",
     "expand-template": "^2.0.3",
     "github-from-package": "0.0.0",
     "minimist": "^1.2.3",

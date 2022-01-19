@@ -5,7 +5,7 @@ const detectLibc = require('detect-libc')
 const napi = require('napi-build-utils')
 
 const env = process.env
-const libc = env.LIBC || (detectLibc.isNonGlibcLinux && detectLibc.family) || ''
+const libc = env.LIBC || (detectLibc.isNonGlibcLinuxSync() && detectLibc.familySync()) || ''
 
 // Get the configuration
 module.exports = function (pkg) {
