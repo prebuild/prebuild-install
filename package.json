@@ -29,7 +29,7 @@
     "npmlog": "^4.0.1",
     "pump": "^3.0.0",
     "rc": "^1.2.7",
-    "simple-get": "^4.0.0",
+    "simple-get": "^4.0.1",
     "tar-fs": "^2.0.0",
     "tunnel-agent": "^0.6.0"
   },
