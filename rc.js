@@ -5,7 +5,9 @@ const detectLibc = require('detect-libc')
 const napi = require('napi-build-utils')
 
 const env = process.env
-const libc = env.LIBC || (detectLibc.isNonGlibcLinuxSync() && detectLibc.familySync()) || ''
+
+const libc = env.LIBC || process.env.npm_config_libc ||
+  (detectLibc.isNonGlibcLinuxSync() && detectLibc.familySync()) || ''
 
 // Get the configuration
 module.exports = function (pkg) {
@@ -50,6 +52,8 @@ module.exports = function (pkg) {
   }
 
   rc.abi = napi.isNapiRuntime(rc.runtime) ? rc.target : getAbi(rc.target, rc.runtime)
+
+  rc.libc = rc.libc === detectLibc.GLIBC ? '' : rc.libc
 
   return rc
 }

@@ -20,7 +20,7 @@ function getDownloadUrl (opts) {
     runtime: opts.runtime || 'node',
     platform: opts.platform,
     arch: opts.arch,
-    libc: opts.libc || process.env.LIBC || '',
+    libc: opts.libc || '',
     configuration: (opts.debug ? 'Debug' : 'Release'),
     module_name: opts.pkg.binary && opts.pkg.binary.module_name,
     tag_prefix: opts['tag-prefix']

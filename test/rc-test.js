@@ -71,7 +71,8 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     npm_config_target: '1.4.0',
     npm_config_runtime: 'electron',
     npm_config_platform: 'PLATFORM',
-    npm_config_build_from_source: 'true'
+    npm_config_build_from_source: 'true',
+    npm_config_libc: 'testlibc'
   }
   runRc(t, '', env, function (rc) {
     t.equal(rc.proxy, 'http://localhost/', 'proxy is set')
@@ -81,6 +82,7 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     t.equal(rc.runtime, 'electron', 'runtime is set')
     t.equal(rc.platform, 'PLATFORM', 'platform is set')
     t.equal(rc.buildFromSource, true, 'build-from-source is set')
+    t.equal(rc.libc, 'testlibc', 'libc is set')
     t.end()
   })
 })
@@ -111,6 +113,16 @@ test('using --tag-prefix will set the tag prefix', function (t) {
   const args = ['--tag-prefix @scoped/package@']
   runRc(t, args.join(' '), {}, function (rc) {
     t.equal(rc['tag-prefix'], '@scoped/package@', 'tag prefix should be set')
+    t.end()
+  })
+})
+
+test('libc glibc is passed as empty', function (t) {
+  const args = [
+    '--libc glibc'
+  ]
+  runRc(t, args.join(' '), {}, function (rc, tmp) {
+    t.equal(rc.libc, '', 'libc family')
     t.end()
   })
 })

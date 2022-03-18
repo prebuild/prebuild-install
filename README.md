@@ -72,9 +72,13 @@ prebuild-install [options]
   --version                     (print prebuild-install version and exit)
 ```
 
-When `prebuild-install` is run via an `npm` script, options `--build-from-source`, `--debug`, `--download`, `--target`, `--runtime`, `--arch` and `--platform` may be passed through via arguments given to the `npm` command.
+When `prebuild-install` is run via an `npm` script, options `--build-from-source`, `--debug`, `--download`, `--target`, `--runtime`, `--arch` `--platform` and `--libc` may be passed through via arguments given to the `npm` command.
 
-Alternatively you can set environment variables `npm_config_build_from_source=true`, `npm_config_platform`, `npm_config_arch`, `npm_config_target` and `npm_config_runtime`.
+Alternatively you can set environment variables `npm_config_build_from_source=true`, `npm_config_platform`, `npm_config_arch`, `npm_config_target` `npm_config_runtime` and `npm_config_libc`.
+
+### Libc
+
+On non-glibc Linux platforms, the Libc name is appended to platform name. For example, musl-based environments are called `linuxmusl`. If `--libc=glibc` is passed as option, glibc is discarded and platform is called as just `linux`. This can be used for example to build cross-platform packages on Alpine Linux.
 
 ### Private Repositories
 
