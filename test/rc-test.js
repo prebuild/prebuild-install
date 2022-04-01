@@ -16,7 +16,6 @@ test('custom config and aliases', function (t) {
     '--path ../some/other/path',
     '--target 1.4.10',
     '--runtime electron',
-    '--libc testlibc',
     '--token TOKEN'
   ]
   runRc(t, args.join(' '), {}, function (rc, tmp) {
@@ -35,7 +34,6 @@ test('custom config and aliases', function (t) {
     t.equal(rc.target, rc.t, 'target alias')
     t.equal(rc.runtime, 'electron', 'correct runtime')
     t.equal(rc.runtime, rc.r, 'runtime alias')
-    t.equal(rc.libc, 'testlibc', 'libc family')
     t.equal(rc.abi, '50', 'correct ABI')
     t.equal(rc.token, 'TOKEN', 'correct token')
     t.equal(rc['tag-prefix'], 'v', 'correct default tag prefix')
@@ -70,7 +68,7 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     npm_config_local_address: '127.0.0.1',
     npm_config_target: '1.4.0',
     npm_config_runtime: 'electron',
-    npm_config_platform: 'PLATFORM',
+    npm_config_platform: 'linux',
     npm_config_build_from_source: 'true',
     npm_config_libc: 'testlibc'
   }
@@ -80,7 +78,7 @@ test('npm_config_* are passed on from environment into rc', function (t) {
     t.equal(rc['local-address'], '127.0.0.1', 'local-address is set')
     t.equal(rc.target, '1.4.0', 'target is set')
     t.equal(rc.runtime, 'electron', 'runtime is set')
-    t.equal(rc.platform, 'PLATFORM', 'platform is set')
+    t.equal(rc.platform, 'linux', 'platform is set')
     t.equal(rc.buildFromSource, true, 'build-from-source is set')
     t.equal(rc.libc, 'testlibc', 'libc is set')
     t.end()
@@ -117,12 +115,35 @@ test('using --tag-prefix will set the tag prefix', function (t) {
   })
 })
 
+test('libc works on linux platform', function (t) {
+  const args = [
+    '--libc musl --platform linux'
+  ]
+  runRc(t, args.join(' '), {}, function (rc, tmp) {
+    t.equal(rc.libc, 'musl', 'libc family')
+    t.equal(rc.platform, 'linux', 'platform')
+    t.end()
+  })
+})
+
 test('libc glibc is passed as empty', function (t) {
   const args = [
-    '--libc glibc'
+    '--libc glibc --platform linux'
   ]
   runRc(t, args.join(' '), {}, function (rc, tmp) {
     t.equal(rc.libc, '', 'libc family')
+    t.equal(rc.platform, 'linux', 'platform')
+    t.end()
+  })
+})
+
+test('libc is discarded on non-linux platform', function (t) {
+  const args = [
+    '--libc musl --platform windows'
+  ]
+  runRc(t, args.join(' '), {}, function (rc, tmp) {
+    t.equal(rc.libc, '', 'libc family')
+    t.equal(rc.platform, 'windows', 'platform')
     t.end()
   })
 })

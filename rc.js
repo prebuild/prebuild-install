@@ -53,7 +53,7 @@ module.exports = function (pkg) {
 
   rc.abi = napi.isNapiRuntime(rc.runtime) ? rc.target : getAbi(rc.target, rc.runtime)
 
-  rc.libc = rc.libc === detectLibc.GLIBC ? '' : rc.libc
+  rc.libc = rc.platform !== 'linux' || rc.libc === detectLibc.GLIBC ? '' : rc.libc
 
   return rc
 }
