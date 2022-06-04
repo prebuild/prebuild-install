@@ -26,7 +26,6 @@
     "mkdirp-classic": "^0.5.3",
     "napi-build-utils": "^1.0.1",
     "node-abi": "^3.3.0",
-    "npmlog": "^4.0.1",
     "pump": "^3.0.0",
     "rc": "^1.2.7",
     "simple-get": "^4.0.0",
