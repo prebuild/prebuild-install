@@ -5,16 +5,19 @@ const crypto = require('crypto')
 const expandTemplate = require('expand-template')()
 
 function getDownloadUrl (opts) {
-  const pkgName = opts.pkg.name.replace(/^@[a-zA-Z0-9_\-.~]+\//, '')
+  const { binary, version: _version, name } = opts.pkg
+  const pkgName = name.replace(/^@[a-zA-Z0-9_\-.~]+\//, '')
+  // support packages with no version
+  const version = _version || ''
   return expandTemplate(urlTemplate(opts), {
     name: pkgName,
     package_name: pkgName,
-    version: opts.pkg.version,
-    major: opts.pkg.version.split('.')[0],
-    minor: opts.pkg.version.split('.')[1],
-    patch: opts.pkg.version.split('.')[2],
-    prerelease: opts.pkg.version.split('-')[1],
-    build: opts.pkg.version.split('+')[1],
+    version: version,
+    major: version.split('.')[0],
+    minor: version.split('.')[1],
+    patch: version.split('.')[2],
+    prerelease: version.split('-')[1],
+    build: version.split('+')[1],
     abi: opts.abi || process.versions.modules,
     node_abi: process.versions.modules,
     runtime: opts.runtime || 'node',
@@ -22,7 +25,7 @@ function getDownloadUrl (opts) {
     arch: opts.arch,
     libc: opts.libc || '',
     configuration: (opts.debug ? 'Debug' : 'Release'),
-    module_name: opts.pkg.binary && opts.pkg.binary.module_name,
+    module_name: binary && binary.module_name,
     tag_prefix: opts['tag-prefix']
   })
 }
@@ -47,17 +50,18 @@ function urlTemplate (opts) {
     return hostMirrorUrl + '/{tag_prefix}{version}/' + packageName
   }
 
-  if (opts.pkg.binary && opts.pkg.binary.host) {
+  const pkg = opts.pkg
+  if (pkg.binary && pkg.binary.host) {
     return [
-      opts.pkg.binary.host,
-      opts.pkg.binary.remote_path,
-      opts.pkg.binary.package_name || packageName
+      pkg.binary.host,
+      pkg.binary.remote_path,
+      pkg.binary.package_name || packageName
     ].map(function (path) {
       return trimSlashes(path)
     }).filter(Boolean).join('/')
   }
 
-  return github(opts.pkg) + '/releases/download/{tag_prefix}{version}/' + packageName
+  return github(pkg) + '/releases/download/{tag_prefix}{version}/' + packageName
 }
 
 function getEnvPrefix (pkgName) {
