@@ -113,10 +113,10 @@ The default scopes should be fine.
 ### Custom binaries
 
 The end user can override binary download location through environment variables in their .npmrc file.
-The variable needs to meet the mask `% your package name %_binary_host` or `% your package name %_binary_host_mirror`. For example:
+The variable needs to meet the mask `npm_config_% your package name %_binary_host` or `npm_config_% your package name %_mirror`. For example:
 
 ```
-leveldown_binary_host=http://overriden-host.com/overriden-path
+npm_config_leveldown_binary_host=http://overriden-host.com/overriden-path
 ```
 
 Note that the package version subpath and file name will still be appended.
@@ -128,10 +128,10 @@ http://overriden-host.com/overriden-path/v1.2.3/leveldown-v1.2.3-node-v57-win32-
 
 #### Local prebuilds
 
-If you want to use prebuilds from your local filesystem, you can use the `% your package name %_local_prebuilds` .npmrc variable to set a path to the folder containing prebuilds. For example:
+If you want to use prebuilds from your local filesystem, you can use the `npm_config_% your package name %_local_prebuilds` .npmrc variable to set a path to the folder containing prebuilds. For example:
 
 ```
-leveldown_local_prebuilds=/path/to/prebuilds
+npm_config_leveldown_local_prebuilds=/path/to/prebuilds
 ```
 
 This option will look directly in that folder for bundles created with `prebuild`, for example:
