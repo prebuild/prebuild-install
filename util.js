@@ -74,7 +74,7 @@ function trimSlashes (str) {
 }
 
 function cachedPrebuild (url) {
-  const digest = crypto.createHash('md5').update(url).digest('hex').slice(0, 6)
+  const digest = crypto.createHash('sha1').update(url).digest('hex').slice(0, 6)
   return path.join(prebuildCache(), digest + '-' + path.basename(url).replace(/[^a-zA-Z0-9.]+/g, '-'))
 }
 
