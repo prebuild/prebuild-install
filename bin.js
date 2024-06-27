@@ -54,25 +54,28 @@ if (opts.force) {
   process.exit(1)
 }
 
-const startDownload = function (downloadUrl) {
-  download(downloadUrl, opts, function (err) {
-    if (err) {
+download(util.getDownloadUrl(opts), opts, function (err) {
+  if (err) {
+    if (opts.token) {
+      log.info('install', 'public download failed, retrying using token')
+      asset(opts, function (err, assetId) {
+        if (err) {
+          log.warn('install', err.message)
+          return process.exit(1)
+        }
+
+        download(util.getAssetUrl(opts, assetId), opts, function (err) {
+          if (err) {
+            log.warn('install', err.message)
+            return process.exit(1)
+          }
+          log.info('install', 'Successfully installed prebuilt binary!')
+        })
+      })
+    } else {
       log.warn('install', err.message)
       return process.exit(1)
     }
-    log.info('install', 'Successfully installed prebuilt binary!')
-  })
-}
-
-if (opts.token) {
-  asset(opts, function (err, assetId) {
-    if (err) {
-      log.warn('install', err.message)
-      return process.exit(1)
-    }
-
-    startDownload(util.getAssetUrl(opts, assetId))
-  })
-} else {
-  startDownload(util.getDownloadUrl(opts))
-}
+  }
+  log.info('install', 'Successfully installed prebuilt binary!')
+})
