@@ -24,7 +24,7 @@
     "github-from-package": "0.0.0",
     "minimist": "^1.2.3",
     "mkdirp-classic": "^0.5.3",
-    "napi-build-utils": "^2.0.0 || ^1.0.1",
+    "napi-build-utils": "^2.0.0",
     "node-abi": "^3.3.0",
     "pump": "^3.0.0",
     "rc": "^1.2.7",
