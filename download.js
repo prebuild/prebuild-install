@@ -40,7 +40,7 @@ function downloadPrebuild (downloadUrl, opts, cb) {
         }
 
         log.http('request', 'GET ' + downloadUrl)
-        const reqOpts = proxy({ url: downloadUrl }, opts)
+        const reqOpts = proxy({ url: downloadUrl, family: 4 }, opts)
 
         if (opts.token) {
           reqOpts.headers = {
