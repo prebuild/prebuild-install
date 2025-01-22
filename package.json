@@ -1,6 +1,6 @@
 {
   "name": "prebuild-install",
-  "version": "7.1.2",
+  "version": "7.1.3",
   "description": "A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform",
   "scripts": {
     "test": "standard && hallmark && tape test/*-test.js",

@@ -1,30 +1,35 @@
 # Changelog
 
+## [7.1.3] - 2025-01-22
+
+### Fixed
+
+- Bump napi-build-utils from 1 to 2 ([#204](https://github.com/prebuild/prebuild-install/issues/204)) ([`1bf4a15`](https://github.com/prebuild/prebuild-install/commit/1bf4a15)) (Bailey Pearson)
+
 ## [7.1.2] - 2024-02-29
 
-### Changed
+### Fixed
 
 - Support environments where MD5 is prohibited ([#191](https://github.com/prebuild/prebuild-install/issues/191)) ([`9140468`](https://github.com/prebuild/prebuild-install/commit/9140468)) (Tomasz Szuba)
 
 ## [7.1.1] - 2022-06-07
 
-### Changed
+### Fixed
 
-- Replace use of npmlog dependency with console.error ([#182](https://github.com/prebuild/prebuild-install/issues/182)) ([`4e2284c`](https://github.com/prebuild/prebuild-install/commit/4e2284c)) (Lovell Fuller).
-
-- Ensure script output can be captured by tests ([#181](https://github.com/prebuild/prebuild-install/issues/181)) ([`d1853cb`](https://github.com/prebuild/prebuild-install/commit/d1853cb)) (Lovell Fuller).
+- Replace use of npmlog dependency with console.error ([#182](https://github.com/prebuild/prebuild-install/issues/182)) ([`4e2284c`](https://github.com/prebuild/prebuild-install/commit/4e2284c)) (Lovell Fuller)
+- Ensure script output can be captured by tests ([#181](https://github.com/prebuild/prebuild-install/issues/181)) ([`d1853cb`](https://github.com/prebuild/prebuild-install/commit/d1853cb)) (Lovell Fuller)
 
 ## [7.1.0] - 2022-04-20
 
 ### Changed
 
-- Allow setting libc to glibc on non-glibc platform ([#176](https://github.com/prebuild/prebuild-install/issues/176)) ([`f729abb`](https://github.com/prebuild/prebuild-install/commit/f729abb)) (Joona Heinikoski).
+- Allow setting libc to glibc on non-glibc platform ([#176](https://github.com/prebuild/prebuild-install/issues/176)) ([`f729abb`](https://github.com/prebuild/prebuild-install/commit/f729abb)) (Joona Heinikoski)
 
 ## [7.0.1] - 2022-01-28
 
 ### Changed
 
-- Upgrade to the latest version of `detect-libc` ([#166](https://github.com/prebuild/prebuild-install/issues/166)) ([`f71c6b9`](https://github.com/prebuild/prebuild-install/commit/f71c6b9)) (Lovell Fuller).
+- Upgrade to the latest version of `detect-libc` ([#166](https://github.com/prebuild/prebuild-install/issues/166)) ([`f71c6b9`](https://github.com/prebuild/prebuild-install/commit/f71c6b9)) (Lovell Fuller)
 
 ## [7.0.0] - 2021-11-12
 
@@ -96,6 +101,8 @@
 ### Changed
 
 - Replace `mkdirp` dependency with `mkdirp-classic` ([**@ralphtheninja**](https://github.com/ralphtheninja))
+
+[7.1.3]: https://github.com/prebuild/prebuild-install/releases/tag/v7.1.3
 
 [7.1.2]: https://github.com/prebuild/prebuild-install/releases/tag/v7.1.2
 
