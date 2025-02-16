@@ -5,7 +5,7 @@
 
 [![npm](https://img.shields.io/npm/v/prebuild-install.svg)](https://www.npmjs.com/package/prebuild-install)
 ![Node version](https://img.shields.io/node/v/prebuild-install.svg)
-[![Test](https://img.shields.io/github/workflow/status/prebuild/prebuild-install/Test?label=test)](https://github.com/prebuild/prebuild-install/actions/workflows/test.yml)
+[![Test](https://img.shields.io/github/actions/workflow/status/prebuild/prebuild-install/test.yml?label=test)](https://github.com/prebuild/prebuild-install/actions/workflows/test.yml)
 [![Standard](https://img.shields.io/badge/standard-informational?logo=javascript\&logoColor=fff)](https://standardjs.com)
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
 
