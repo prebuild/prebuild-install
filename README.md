@@ -1,5 +1,8 @@
 # prebuild-install
 
+> [!IMPORTANT]
+> This module is deprecated and no longer maintained, along with `prebuild`. Please see [#216](https://github.com/prebuild/prebuild-install/issues/216) for discussion and alternatives, as well as the note below. Thank you!
+
 > **A command line tool to easily install prebuilt binaries for multiple versions of Node.js & Electron on a specific platform.**
 > By default it downloads prebuilt binaries from a GitHub release.
 
